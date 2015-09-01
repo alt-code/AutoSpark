@@ -1,8 +1,8 @@
 # Spark Cluster Setup
 
 ## Steps to setup a Spark Cluster on AWS or Digital Ocean
-1   Launch Ubuntu 14.04 Nodes on AWS or Digital Ocean
-2   Perform machine updates
+1. Launch Ubuntu 14.04 Nodes on AWS or Digital Ocean
+2. Perform machine updates
     ```
     sudo apt-get update
     ```
