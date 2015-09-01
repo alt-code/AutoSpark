@@ -56,5 +56,8 @@
     ```
 12. The spark master is at public IP of master: 8080 find actual spark URL using curl
 
-![Spark]()
+    ```
+    Add image here
+    ![Spark]()
+    ```
 13. Repeat for all slaves
