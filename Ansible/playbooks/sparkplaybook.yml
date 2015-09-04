@@ -1,5 +1,8 @@
 ---
-- hosts: sparkcluster001
+- hosts: ec2node
+  vars:
+    master: true
+
   tasks:
    - name: Run apt-get update
      apt: update_cache=yes
@@ -16,4 +19,13 @@
 
    - name: Unarchive Spark download
      sudo: true
-     unarchive: src=/spark/spark-1.4.1-bin-hadoop2.6.tgz dest=/spark/
+     unarchive: src=/spark/spark-1.4.1-bin-hadoop2.6.tgz dest=/spark copy=no
+
+   - name: Move spark dir to spark_latest
+     sudo: true
+     command: mv /spark/spark-1.4.1-bin-hadoop2.6 /spark/spark_latest
+
+   - name: Start Spark Master
+     sudo: true
+     when: master
+     command: sh /spark/spark_latest/sbin/start-master.sh
