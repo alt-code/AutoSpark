@@ -6,3 +6,14 @@
 
    - name: Install wget
      apt: pkg=wget state=installed update_cache=true
+
+   - name: create spark dir
+     file: path=/spark state=directory mode=0755
+
+   - name: download sources
+     sudo: true
+     get_url: url=http://www.webhostingjams.com/mirror/apache/spark/spark-1.4.1/spark-1.4.1-bin-hadoop2.6.tgz dest=/spark/
+
+   - name: Unarchive Spark download
+     sudo: true
+     unarchive: src=/spark/spark-1.4.1-bin-hadoop2.6.tgz dest=/spark/
