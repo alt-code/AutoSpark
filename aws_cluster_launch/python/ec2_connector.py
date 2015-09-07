@@ -84,9 +84,9 @@ def print_master_slave_setup(cluster_info):
     print("=============== End ==================")
 
 
-def insert_ssh(conn):
+def insert_ssh(conn, key_name):
     print(PUBLIC_SSH_KEY)
-    key_pair = conn.import_key_pair(KEY_NAME, PUBLIC_SSH_KEY)
+    key_pair = conn.import_key_pair(key_name, PUBLIC_SSH_KEY)
     return key_pair
 
 
@@ -130,7 +130,7 @@ def main(argv):
     conn = create_connection(region=REGION)
 
     # Insert public SSH
-    insert_ssh(conn)
+    insert_ssh(conn, KEY_NAME)
 
     # Create reservation
     reservation = conn.run_instances(image_id=IMAGE_ID, min_count=COUNT,
