@@ -15,7 +15,7 @@
 
    - name: download sources
      sudo: true
-     get_url: url=http://www.webhostingjams.com/mirror/apache/spark/spark-1.4.1/spark-1.4.1-bin-hadoop2.6.tgz dest=/spark/
+     get_url: url=http://ftp.wayne.edu/apache//spark/spark-1.4.1/spark-1.4.1-bin-hadoop2.6.tgz dest=/spark/
 
    - name: Unarchive Spark download
      sudo: true
@@ -24,6 +24,10 @@
    - name: Move spark dir to spark_latest
      sudo: true
      command: mv /spark/spark-1.4.1-bin-hadoop2.6 /spark/spark_latest
+
+   - name: Install JRE to set JAVA_HOME
+     sudo: true
+     apt: name=openjdk-7-jre state=present
 
    - name: Start Spark Master
      sudo: true
