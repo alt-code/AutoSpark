@@ -2,6 +2,7 @@
 - hosts: ec2node
   vars:
     master: "{{ MASTER_YES }}"
+    spark_url: "{{ SPARK_URL }}"
 
   tasks:
    - name: Run apt-get update
@@ -37,4 +38,4 @@
    - name: Start Spark Slaves
      sudo: true
      when: master=="false"
-     command: /spark/spark_latest/sbin/start-slave.sh spark://ip-172-31-43-103:7077
+     command: /spark/spark_latest/sbin/start-slave.sh spark_url
