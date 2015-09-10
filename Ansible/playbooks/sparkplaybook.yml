@@ -38,4 +38,4 @@
    - name: Start Spark Slaves
      sudo: true
      when: master=="false"
-     command: /spark/spark_latest/sbin/start-slave.sh spark_url
+     command: /spark/spark_latest/sbin/start-slave.sh {{spark_url}}
