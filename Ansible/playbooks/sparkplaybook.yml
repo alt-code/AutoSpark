@@ -4,6 +4,7 @@
     master: "{{ MASTER_YES }}"
     spark_url: "{{ SPARK_URL }}"
     user: "{{ USER }}"
+    master_ip: "{{ MASTER_IP }}"
   user: "{{user}}"
 
   tasks:
@@ -35,7 +36,7 @@
    - name: Start Spark Master
      sudo: true
      when: master=="true"
-     command: sh /spark/spark_latest/sbin/start-master.sh
+     command: sh /spark/spark_latest/sbin/start-master.sh -h {{master_ip}}
 
    - name: Start Spark Slaves
      sudo: true
