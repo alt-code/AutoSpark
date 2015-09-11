@@ -7,7 +7,7 @@ var request = require('request');
 var digitalocean = new DIGITALOCEAN(SETTINGS.token);
 
 // locals
-var name = "spark001"
+var cluster_name = "spark001"
 var region = "nyc3"
 var size = "512mb"
 var image = "ubuntu-14-04-x64"
@@ -15,18 +15,7 @@ var backups = false
 var ipv6 = false
 var user_data = null
 var private_networking = null
-
-var newDroplet = {
-    "name": name,
-    "region": region,
-    "size": size,
-    "image": image,
-    "ssh_keys": [SETTINGS.key_name],
-    "backups": backups,
-    "ipv6": ipv6,
-    "user_data": user_data,
-    "private_networking": private_networking
-}
+var count = 3
 
 var ssh_json = {
     "name": SETTINGS.key_name,
@@ -36,40 +25,70 @@ var ssh_json = {
 // Create Public SSH KEYS in digital ocean
 function create_ssh_keys(json_data) {
 
-    // Set the headers
-    var headers = {
-        'Authorization': 'Bearer '+ SETTINGS.token,
-        'Content-Type': 'application/json'
-    }
+    console.log(json_data)
 
-    // Configure the request
-    var options = {
-        method: 'POST',
-        headers: headers,
-        body: json_data
-    }
-
-    // Start the request
-    request('https://api.digitalocean.com/v2/account/keys', options, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            // Print out the response body
-            console.log(body)
+    request({
+        url: "https://api.digitalocean.com/v2/account/keys",
+        method: "POST",
+        json: true,
+        headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer " + SETTINGS.token
+        },
+        json: json_data
+    }, function(error, response, body) {
+        if (!error || response.status_code == 200) {
+            console.log(body);
         }
-
-        console.log(error);
     })
 }
 
-// Inserting SSH keys
-create_ssh_keys(ssh_json)
 
-// Launching droplet
-/*
-digitalocean.createDroplet(newDroplet, function(error, result) {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log(result);
+function launch_cluster(count, cluster_name) {
+
+    for (var i = 0; i < count; i++) {
+
+        if (i === 0) {
+            launch_instance(cluster_name + "-master")
+        } else {
+            launch_instance(cluster_name + "-slave")
+        }
+
     }
-});
-*/
+
+}
+
+function launch_instance(node_name) {
+
+    var droplet_data = create_dictionary(node_name)
+    digitalocean.createDroplet(droplet_data, function(error, result) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(result);
+        }
+    });
+}
+
+
+function create_dictionary(node_name) {
+
+    var newDropletData = {
+        "name": node_name,
+        "region": region,
+        "size": size,
+        "image": image,
+        "ssh_keys": [1264010],
+        "backups": backups,
+        "ipv6": ipv6,
+        "user_data": user_data,
+        "private_networking": private_networking
+    }
+
+    return newDropletData
+}
+// Inserting SSH keys
+//create_ssh_keys(ssh_json)
+
+// Launching droplets cluster
+launch_cluster(count, cluster_name)
