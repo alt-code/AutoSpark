@@ -1,5 +1,5 @@
 ---
-- hosts: ec2node
+- hosts: sparknodes
   vars:
     master: "{{ MASTER_YES }}"
     spark_url: "{{ SPARK_URL }}"
