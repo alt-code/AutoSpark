@@ -4,7 +4,7 @@ import boto.ec2
 import getopt
 import settings
 import sys
-
+import time
 
 # Globals
 ACCESS_KEY = settings.ACCESS_KEY
@@ -37,21 +37,24 @@ def add_name_tags(reservation, cluster_name, cluster_structure):
         print("Cluster cannot have less that 1 instance")
 
     else:
+        print("Info: Cluster with more than 1 node initalized")
+        print("Info: Adding tag to master node...")
         master = reservation.instances[0]
         master.add_tag('Name', cluster_name + '-Master')
         master.add_tag('Cluster_Id', cluster_name)
 
         # Adding master to the cluster structure
-        cluster_structure["masters"].append(master.id)
+        cluster_structure["masters"].append(master)
 
         if len(reservation.instances) > 1:
 
             # Cluster launched with one master and multiple slaves
+            print("Info: Adding tag to slave nodes...")
             for i in range(1, len(reservation.instances)):
                 instance = reservation.instances[i]
                 instance.add_tag('Name', cluster_name + '-Slave')
                 instance.add_tag('Cluster_Id', cluster_name)
-                cluster_structure["slaves"].append(instance.id)
+                cluster_structure["slaves"].append(instance)
 
     return cluster_structure
 
@@ -75,11 +78,12 @@ def print_master_slave_setup(cluster_info):
 
     print("Masters:")
     for master in cluster_info['masters']:
-        print(master)
+        print(master.id + "  " + master.public_dns_name)
+        print("Cluster_Master - DNS / Spark URL = " + master.public_dns_name)
 
     print("Slaves:")
     for slave in cluster_info['slaves']:
-        print(slave)
+        print(slave.id + "  " + slave.public_dns_name)
 
     print("=============== End ==================")
 
@@ -88,6 +92,31 @@ def insert_ssh(conn, key_name):
     # print(PUBLIC_SSH_KEY)
     key_pair = conn.import_key_pair(key_name, PUBLIC_SSH_KEY)
     return key_pair
+
+
+def check_ssh(conn, key_name):
+    try:
+        key = conn.get_all_key_pairs(keynames=[key_name])[0]
+        print("Info: Found Key with name - " + key.name)
+        print("Info: Continuing cluster creation...")
+    except conn.ResponseError as e:
+        if e.code == 'InvalidKeyPair.NotFound':
+            print("Warning: No keyPair found with name "+key_name)
+            print("Info: Creating keypair: " + key_name)
+
+            # Create an SSH key to use when logging into instances.
+            key_pair = insert_ssh(conn, key_name)
+            print("Success: Created a new keypair")
+            print(key_pair)
+
+        else:
+            raise
+
+
+def wait_for_public_ip(reservation):
+    for instance in reservation.instances:
+        while instance.update() != "running":
+            time.sleep(5)
 
 
 def main(argv):
@@ -102,7 +131,7 @@ def main(argv):
               ' --region <us-west-2> --key_name <xyz> --security_group <abc>')
         sys.exit(2)
 
-    print("Launching cluster with arguments:")
+    print("Info: Launching cluster with arguments:")
     print(opts)
 
     for opt, arg in opts:
@@ -129,14 +158,16 @@ def main(argv):
     # Creating the cluster
     conn = create_connection(region=REGION)
 
-    # Insert public SSH
-    insert_ssh(conn, KEY_NAME)
+    # Check if exists else insert public SSH
+    check_ssh(conn, KEY_NAME)
 
     # Create reservation
     reservation = conn.run_instances(image_id=IMAGE_ID, min_count=COUNT,
                                      max_count=COUNT, key_name=KEY_NAME,
                                      security_groups=SECURITY_GROUPS,
                                      instance_type=INSTANCE_TYPE)
+
+    wait_for_public_ip(reservation)
 
     cluster_info = add_name_tags(reservation, CLUSTER_NAME, cluster_structure)
     cluster_config_check(cluster_info)
