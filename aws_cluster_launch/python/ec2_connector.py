@@ -14,7 +14,8 @@ PUBLIC_SSH_KEY = settings.PUBLIC_SSH_KEY.encode('utf-8')
 cluster_structure = {"masters": [], "slaves": []}
 master_file_name = "master_inventory"
 slave_file_name = "slave_inventory"
-
+shell_script_master_name = "master.sh"
+shell_script_slave_name = "slave.sh"
 # User inputs constant for each run
 CLUSTER_NAME = "spark"
 COUNT = 3
@@ -125,7 +126,7 @@ def wait_for_public_ip(reservation):
 def create_inventory_file(cluster_info):
 
     python_file_path = os.path.dirname(os.path.abspath(__file__))
-    print("Info: "+python_file_path)
+    print("Info: Current file path " + python_file_path)
 
     master_file_path = os.path.join(python_file_path +
                                     "/../../Ansible/playbooks/",
@@ -156,6 +157,41 @@ def create_inventory_file(cluster_info):
     master_file.close()
     slave_file.close()
 
+
+def create_shell_script(cluster_info):
+
+    master = cluster_info["masters"][0]
+    python_file_path = os.path.dirname(os.path.abspath(__file__))
+    print("Info: Current file path " + python_file_path)
+
+    # Master shell script
+    shell_script_master_path = os.path.join(python_file_path +
+                                            "/../../Ansible/playbooks/",
+                                            shell_script_master_name)
+
+    print("Info: Master script path " + shell_script_master_path)
+    script_file_master = open(shell_script_master_path, "w")
+    script_file_master.truncate()
+    script_file_master.write("ansible-playbook -s --extra-vars ")
+    script_file_master.write("\'MASTER_YES=\"true\" USER=\"ubuntu\" ")
+    script_file_master.write("SPARK_URL=\"\" MASTER_IP=\"")
+    script_file_master.write(master.public_dns_name)
+    script_file_master.write("\"\' sparkplaybook.yml -i master_inventory\n")
+
+    # Slave shell script
+    shell_script_slave_path = os.path.join(python_file_path +
+                                            "/../../Ansible/playbooks/",
+                                            shell_script_slave_name)
+
+    print("Info: Master script path " + shell_script_slave_path)
+    script_file_slave = open(shell_script_slave_path, "w")
+    script_file_slave.truncate()
+    script_file_slave.write("ansible-playbook -s --extra-vars ")
+    script_file_slave.write("\'MASTER_YES=\"false\" USER=\"ubuntu\" ")
+    script_file_slave.write("SPARK_URL=\"spark://")
+    script_file_slave.write(master.public_dns_name+":7077\" ")
+    script_file_slave.write("MASTER_IP=\"\"")
+    script_file_slave.write("\' sparkplaybook.yml -i slave_inventory\n")
 
 def main(argv):
 
@@ -214,9 +250,11 @@ def main(argv):
     cluster_config_check(cluster_info)
     print_master_slave_setup(cluster_info)
 
-    # Writin master / slave inventory files
+    # Writing master / slave inventory files
     create_inventory_file(cluster_info)
 
+    # Create shell script
+    create_shell_script(cluster_info)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
