@@ -5,12 +5,15 @@ import getopt
 import settings
 import sys
 import time
+import os.path
 
 # Globals
 ACCESS_KEY = settings.ACCESS_KEY
 SECRET_KEY = settings.SECRET_KEY
 PUBLIC_SSH_KEY = settings.PUBLIC_SSH_KEY.encode('utf-8')
 cluster_structure = {"masters": [], "slaves": []}
+master_file_name = "master_inventory"
+slave_file_name = "slave_inventory"
 
 # User inputs constant for each run
 CLUSTER_NAME = "spark"
@@ -101,7 +104,7 @@ def check_ssh(conn, key_name):
         print("Info: Continuing cluster creation...")
     except conn.ResponseError as e:
         if e.code == 'InvalidKeyPair.NotFound':
-            print("Warning: No keyPair found with name "+key_name)
+            print("Warning: No keyPair found with name " + key_name)
             print("Info: Creating keypair: " + key_name)
 
             # Create an SSH key to use when logging into instances.
@@ -117,6 +120,41 @@ def wait_for_public_ip(reservation):
     for instance in reservation.instances:
         while instance.update() != "running":
             time.sleep(5)
+
+
+def create_inventory_file(cluster_info):
+
+    python_file_path = os.path.dirname(os.path.abspath(__file__))
+    print("Info: "+python_file_path)
+
+    master_file_path = os.path.join(python_file_path +
+                                    "/../../Ansible/playbooks/",
+                                    master_file_name)
+
+    print(master_file_path)
+    master_file = open(master_file_path, "w")
+    master_file.truncate()
+
+    # Writing the master inventory file
+    master_file.write("[sparknodes]\n")
+    for master in cluster_info["masters"]:
+        master_file.write(master.ip_address + "\n")
+
+    slave_file_path = os.path.join(python_file_path +
+                                   "/../../Ansible/playbooks/",
+                                   slave_file_name)
+
+    print(slave_file_path)
+    slave_file = open(slave_file_path, "w")
+    slave_file.truncate()
+
+    # Writing the slave inventory file
+    slave_file.write("[sparknodes]\n")
+    for slave in cluster_info["slaves"]:
+        slave_file.write(slave.ip_address + "\n")
+
+    master_file.close()
+    slave_file.close()
 
 
 def main(argv):
@@ -167,11 +205,17 @@ def main(argv):
                                      security_groups=SECURITY_GROUPS,
                                      instance_type=INSTANCE_TYPE)
 
+    # Wait for public Ip to be assigned
     wait_for_public_ip(reservation)
 
     cluster_info = add_name_tags(reservation, CLUSTER_NAME, cluster_structure)
+
+    # Check cluster information for Warnings
     cluster_config_check(cluster_info)
     print_master_slave_setup(cluster_info)
+
+    # Writin master / slave inventory files
+    create_inventory_file(cluster_info)
 
 
 if __name__ == '__main__':
