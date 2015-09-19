@@ -83,7 +83,8 @@ def print_master_slave_setup(cluster_info):
     print("Masters:")
     for master in cluster_info['masters']:
         print(master.id + "  " + master.public_dns_name)
-        print("Cluster_Master - DNS / Spark URL = " + master.public_dns_name)
+        print("Cluster_Master - DNS / Spark URL = " + master.public_dns_name
+                                                    + ":8080")
 
     print("Slaves:")
     for slave in cluster_info['slaves']:
