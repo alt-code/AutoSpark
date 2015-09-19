@@ -8,6 +8,7 @@ var promise = require('promise')
 var digitalocean = new DIGITALOCEAN(SETTINGS.token);
 
 // locals
+var cluster_node_names = []
 var cluster_name = "spark002"
 var region = "nyc3"
 var size = "512mb"
@@ -141,17 +142,23 @@ function create_ssh_keys(json_data) {
 
 
 function launch_cluster(cluster_name, count, ssh_key_number) {
+    return new promise(function(resolve, reject) {
 
+    var node_names = []
     for (var i = 0; i < count; i++) {
 
-        if (i === 0) {
-            launch_instance(cluster_name + "-master", ssh_key_number)
-        } else {
-            launch_instance(cluster_name + "-slave", ssh_key_number)
+            if (i === 0) {
+                node_names.push(cluster_name+"-master")
+                launch_instance(cluster_name + "-master", ssh_key_number)
+            } else {
+                node_names.push(cluster_name+"-slave")
+                launch_instance(cluster_name + "-slave", ssh_key_number)
+            }
+
         }
 
-    }
-
+        resolve(node_names);
+    });
 }
 
 function launch_instance(node_name, ssh_key_number) {
@@ -198,7 +205,12 @@ key_promise.then(function(ssh_key_present) {
 
         console.log("Info: Key to be used = " + ssh_key_number)
         console.log("Launching Cluster...")
-        launch_cluster(cluster_name, count, ssh_key_number)
+        cluster_node_resolve = launch_cluster(cluster_name, count, ssh_key_number)
+
+        cluster_node_resolve.then(function(cluster_node_names){
+
+            console.log(cluster_node_names)
+        })
 
     })
 
