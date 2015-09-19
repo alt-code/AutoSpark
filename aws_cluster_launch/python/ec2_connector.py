@@ -180,8 +180,8 @@ def create_shell_script(cluster_info):
 
     # Slave shell script
     shell_script_slave_path = os.path.join(python_file_path +
-                                            "/../../Ansible/playbooks/",
-                                            shell_script_slave_name)
+                                           "/../../Ansible/playbooks/",
+                                           shell_script_slave_name)
 
     print("Info: Master script path " + shell_script_slave_path)
     script_file_slave = open(shell_script_slave_path, "w")
@@ -189,9 +189,10 @@ def create_shell_script(cluster_info):
     script_file_slave.write("ansible-playbook -s --extra-vars ")
     script_file_slave.write("\'MASTER_YES=\"false\" USER=\"ubuntu\" ")
     script_file_slave.write("SPARK_URL=\"spark://")
-    script_file_slave.write(master.public_dns_name+":7077\" ")
+    script_file_slave.write(master.public_dns_name + ":7077\" ")
     script_file_slave.write("MASTER_IP=\"\"")
     script_file_slave.write("\' sparkplaybook.yml -i slave_inventory\n")
+
 
 def main(argv):
 
