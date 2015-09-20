@@ -2,14 +2,15 @@
 current_dir="$(pwd)"
 
 # Moving to python dir
-cd "$current_dir/../aws_cluster_launch/python"
+cd "$current_dir/../digitalocean_cluster_launch/js"
 
-# Executing python command
-python ec2_connector.py --name spark001 --count 3 --type t2.micro --region us-west-2 --key_name ansible_key --security_group spark_cluster
+# Executing node command
+node digitalocean_connector.js
+node create_shell_scripts.js
 
 # Sleep for machine to be accesible
-echo "Waiting for ec2 instances to be ready for SSH..."
-sleep 100
+echo "Waiting for digital ocean instances to be ready for SSH..."
+sleep 120
 
 # Moving to ansible directory
 cd "$current_dir/../Ansible/playbooks"
