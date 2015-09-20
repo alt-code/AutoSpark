@@ -3,13 +3,25 @@ var DIGITALOCEAN = require('dropletapi').Droplets;
 var SETTINGS = require('./settings.js')
 var request = require('request');
 var promise = require('promise')
-
-// Creating API tokens
+var async = require('async-q')
+var needle = require('needle')
+var fs = require('fs')
+    // Creating API tokens
 var digitalocean = new DIGITALOCEAN(SETTINGS.token);
 
 // locals
-var cluster_node_names = []
-var cluster_name = "spark002"
+var cluster_mapping = {
+    "masters": [],
+    "slaves": []
+}
+var headers = {
+    "content-type": "application/json",
+    "Authorization": "Bearer " + SETTINGS.token
+}
+var node_names = []
+var droplet_ids = []
+var droplet_ips = []
+var cluster_name = "spark001"
 var region = "nyc3"
 var size = "512mb"
 var image = "ubuntu-14-04-x64"
@@ -17,7 +29,7 @@ var backups = false
 var ipv6 = false
 var user_data = null
 var private_networking = null
-var count = 3
+var count = 2
 
 var ssh_json = {
 
@@ -140,37 +152,9 @@ function create_ssh_keys(json_data) {
     })
 }
 
+function launch_instance(node_name, ssh_key_number, callback) {
 
-function launch_cluster(cluster_name, count, ssh_key_number) {
-    return new promise(function(resolve, reject) {
 
-    var node_names = []
-    for (var i = 0; i < count; i++) {
-
-            if (i === 0) {
-                node_names.push(cluster_name+"-master")
-                launch_instance(cluster_name + "-master", ssh_key_number)
-            } else {
-                node_names.push(cluster_name+"-slave")
-                launch_instance(cluster_name + "-slave", ssh_key_number)
-            }
-
-        }
-
-        resolve(node_names);
-    });
-}
-
-function launch_instance(node_name, ssh_key_number) {
-
-    var droplet_data = create_dictionary(node_name, ssh_key_number)
-    digitalocean.createDroplet(droplet_data, function(error, result) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(result);
-        }
-    });
 }
 
 
@@ -194,24 +178,70 @@ function create_dictionary(node_name, ssh_key_number) {
 var key_promise = check_ssh_key(ssh_json)
 key_promise.then(function(ssh_key_present) {
 
-
+    // if ssh key is not present create
     if (ssh_key_present === false) {
         console.log("Warning: SSH_KEY not found on digital Ocean")
         create_ssh_keys(ssh_json)
         console.log("Success: SSH_KEY creation done")
     }
+
     var ssh_id = get_ssh_key_id(ssh_json["name"])
     ssh_id.then(function(ssh_key_number) {
 
+        // Print ssh key id being used
         console.log("Info: Key to be used = " + ssh_key_number)
         console.log("Launching Cluster...")
-        cluster_node_resolve = launch_cluster(cluster_name, count, ssh_key_number)
 
-        cluster_node_resolve.then(function(cluster_node_names){
+        // Constructing an array of names
+        if (count > 0) {
+            node_names.push(cluster_name + "-master")
 
-            console.log(cluster_node_names)
+            for (var i = 0; i < count - 1; i++) {
+                num = i + 1
+                node_names.push(cluster_name + "-slave-" + num)
+            }
+        }
+
+        // for each node name call launch_instance
+        var names_resolved = async.each(node_names, function(item) {
+
+            return new promise(function(resolve, reject) {
+                var droplet_data = create_dictionary(item, ssh_key_number)
+                needle.post("https://api.digitalocean.com/v2/droplets", droplet_data, {
+                    headers: headers,
+                    json: true
+                }, function(request, response) {
+
+                    // Log response body
+                    console.log(response.body)
+
+                    // push the ID into an array
+                    droplet_id = response.body.droplet.id
+                    droplet_name = response.body.droplet.name
+
+                    droplet_ids.push(droplet_id)
+
+                    if (droplet_name.indexOf("master") > 0) {
+                        cluster_mapping["masters"].push(droplet_id)
+                    } else {
+                        cluster_mapping["slaves"].push(droplet_id)
+                    }
+                    // Wait for IP to be assigned
+                    resolve()
+                });
+
+            });
+        })
+
+        names_resolved.then(function() {
+            console.log(droplet_ids)
+            console.log(cluster_mapping)
+
+
+            // Extract slave IP
         })
 
     })
+
 
 })
