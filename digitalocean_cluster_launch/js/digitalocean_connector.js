@@ -21,7 +21,7 @@ var headers = {
 var node_names = []
 var droplet_ids = []
 var droplet_ips = []
-var cluster_name = "spark001"
+var cluster_name = "sparktest"
 var region = "nyc3"
 var size = "512mb"
 var image = "ubuntu-14-04-x64"
@@ -29,7 +29,7 @@ var backups = false
 var ipv6 = false
 var user_data = null
 var private_networking = null
-var count = 2
+var count = 3
 
 var ssh_json = {
 
@@ -37,7 +37,14 @@ var ssh_json = {
     "public_key": SETTINGS.ssh_public_key
 }
 
-// Create Public SSH KEYS in digital ocean
+var new_droplet = {
+        getIP: function(droplet_id, onResponse) {
+            needle.get("https://api.digitalocean.com/v2/droplets/" + droplet_id, {
+                headers: headers
+            }, onResponse)
+        }
+    }
+    // Create Public SSH KEYS in digital ocean
 
 function check_ssh_key(ssh_json) {
 
@@ -152,11 +159,23 @@ function create_ssh_keys(json_data) {
     })
 }
 
-function launch_instance(node_name, ssh_key_number, callback) {
+function wait_for_ip(id,filename){
 
+    var interval = setInterval(function() {
+        new_droplet.getIP(id, function(error, response) {
+            var data = response.body;
+
+            if (data.droplet.networks.v4.length > 0) {
+                console.log("Data networks:", data.droplet.networks.v4[0].ip_address)
+                var ipAddress = data.droplet.networks.v4[0].ip_address
+                fs.appendFileSync('../../Ansible/playbooks/'+filename, ipAddress + "\n")
+                clearInterval(interval);
+            }
+
+        });
+    }, 1000);
 
 }
-
 
 function create_dictionary(node_name, ssh_key_number) {
 
@@ -237,8 +256,31 @@ key_promise.then(function(ssh_key_present) {
             console.log(droplet_ids)
             console.log(cluster_mapping)
 
+            //Opening master_inventory file
+
+            fs.writeFileSync('../../Ansible/playbooks/master_inventory', "[sparknodes]\n");
+
+            // Extract master IP
+            for (var i = 0; i < cluster_mapping["masters"].length; i++) {
+
+                master_id = cluster_mapping["masters"][i]
+
+                // Wait for Ip to get Assigned
+                wait_for_ip(master_id, "master_inventory")
+            }
 
             // Extract slave IP
+
+            //Opening master_inventory file
+            fs.writeFileSync('../../Ansible/playbooks/slave_inventory', "[sparknodes]\n");
+
+            for (var j = 0; j < cluster_mapping["slaves"].length; j++) {
+
+                slave_id = cluster_mapping["slaves"][j]
+
+                // Wait for IP to get assigned
+                wait_for_ip(slave_id, "slave_inventory")
+            }
         })
 
     })
