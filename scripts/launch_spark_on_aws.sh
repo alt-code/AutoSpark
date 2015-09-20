@@ -4,6 +4,9 @@ current_dir="$(pwd)"
 # Moving to python dir
 cd "$current_dir/../aws_cluster_launch/python"
 
+# pip install requirements
+sudo pip install -r requirements.txt
+
 # Executing python command
 python ec2_connector.py --name spark001 --count 3 --type t2.micro --region us-west-2 --key_name ansible_key --security_group spark_cluster
 
