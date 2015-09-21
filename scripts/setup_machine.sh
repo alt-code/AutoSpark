@@ -2,7 +2,7 @@
 sudo apt-get update -y
 
 # Install pip
-sudo apt-get install pip -y
+sudo apt-get install python-pip -y
 
 # Setting up npm
 sudo apt-get install npm -y
