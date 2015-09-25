@@ -8,7 +8,8 @@ def main():
     conf = SparkConf()
     conf.setMaster("spark://localhost:7077")
     conf.setAppName("Tweet App")
-    conf.set("spark.executor.memory", "7g")
+    conf.set("spark.executor.memory", "4g")
+    conf.set("spark.driver.memory", "4g")
 
     # Creating a Spark Context with conf file
     sc = SparkContext(conf=conf)
@@ -23,12 +24,20 @@ def main():
     json_file_path = os.path.join(curr_path +
                                   "/../Spark_Jobs/data/",
                                   json_name)
-    createSQLContext(json_file_path, sqlContext)
-    word_count(sc, json_file_path, curr_path)
+
+    test(json_file_path, sqlContext)
+    # createSQLContext(json_file_path, sqlContext)
+    # word_count(sc, json_file_path, curr_path)
+
+
+def test(json_file_path, sqlContext):
+    tweets = sqlContext.jsonFile(json_file_path)
+    tweets.printSchema()
 
 
 def createSQLContext(json_file_path, sqlContext):
 
+    print("=========Inside SQL ===========")
     # Read the data into a data frame
     dataframe = sqlContext.read.json(json_file_path)
 

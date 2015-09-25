@@ -1,0 +1,102 @@
+/* when input has class focus */
+input.focus[type="text"],
+input.focus[type="number"] {
+  padding: 5px;
+  border: solid 1px #dcdcdc;
+  transition: box-shadow 0.3s, border 0.3s;
+  border-radius: 7px;
+}
+
+/* Button for cluster launch*/
+input.focus[type="submit"] {
+  font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #D9853B
+}
+
+/* Button for provider Selection */
+input.main_select[type="submit"] {
+  font: 40px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: #D9853B;
+  color: #ECECEA;
+  margin-left: 40px;
+  width:400px;
+
+}
+
+/* Button for provider Selection */
+input.launch_cluster[type="submit"] {
+  font: 30px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  border-radius: 20px;
+  background-color: #D9853B;
+  color: #ECECEA;
+  padding: 30px;
+  width:300px;
+
+}
+
+input.main_select[type='submit']:hover,
+input.launch_cluster[type='submit']:hover {
+  background-color: #E19D62;
+  color: #412812;
+}
+
+/* When input is in focus*/
+input[type="text"]:focus {
+
+  border: solid 1px #707070;
+  box-shadow: 0 0 5px 1px #969696;
+}
+
+form.horizontal {
+	display: inline;
+}
+
+.label {
+	display: inline-block;
+	width: 200px;
+	text-align: right;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+}
+
+html {
+	width: 100%
+}
+
+body {
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  background-color: #74AFAD;
+  margin: 0px;
+  width: 100%;
+}
+
+h1.headline {
+  background-color: #558C89;
+  padding: 20px;
+  margin: 0px;
+  margin-bottom: 100px;
+  color: #ECECEA
+} 
+
+p {
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #ECECEA
+}
+
+a {
+  color: #00B7FF;
+}

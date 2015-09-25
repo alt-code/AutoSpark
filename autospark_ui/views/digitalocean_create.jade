@@ -1,0 +1,33 @@
+extends layout
+
+block content
+	h1(class="headline") #{title}
+
+	form(name= "create_aws_cluster", method= "post" class="horizontal")
+		div.input
+			span.label= "Cluster Name: "
+			input(type= "text", name= "cluster_name" class="focus")
+
+		div.input
+			span.label= "Node Count: "
+			input(type= "number", min=0, name= "node_count" class="focus")
+
+		div.input
+			span.label= "Instance Type: "
+			input(type= "text", name= "Instance_type" class="focus")
+
+		div.input
+			span.label= "Region Name: "
+			input(type= "text", default="us-west-2" name= "region_name" class="focus")
+
+		div.input
+			span.label= "Key Name: "
+			input(type= "text", name="key_name" class="focus")
+
+		div.input
+			span.label= "AWS Security Group: "
+			input(type="text", name="security_group" class="focus")
+
+		div.actions
+			input(type= "submit", value= "Create" class="focus")
+
