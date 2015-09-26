@@ -8,7 +8,7 @@ def main():
     conf = SparkConf()
     conf.setMaster("spark://localhost:7077")
     conf.setAppName("Tweet App")
-    conf.set("spark.executor.memory", "4g")
+    conf.set("spark.executor.memory", "3g")
     conf.set("spark.driver.memory", "4g")
 
     # Creating a Spark Context with conf file
@@ -19,7 +19,7 @@ def main():
 
     # Define the data path
     curr_path = os.path.dirname(os.path.abspath(__file__))
-    json_name = "tweets.json"
+    json_name = "out.json"
 
     json_file_path = os.path.join(curr_path +
                                   "/../Spark_Jobs/data/",
