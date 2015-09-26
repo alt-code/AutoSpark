@@ -25,8 +25,9 @@ def main():
                                   "/../Spark_Jobs/data/",
                                   json_name)
 
-    test(json_file_path, sqlContext)
-    # createSQLContext(json_file_path, sqlContext)
+    createSQLContext(json_file_path, sqlContext)
+
+    # test(json_file_path, sqlContext)
     # word_count(sc, json_file_path, curr_path)
 
 
@@ -37,7 +38,7 @@ def test(json_file_path, sqlContext):
 
 def createSQLContext(json_file_path, sqlContext):
 
-    print("=========Inside SQL ===========")
+    print("=========Inside SQL Context Creator ===========")
     # Read the data into a data frame
     dataframe = sqlContext.read.json(json_file_path)
 
