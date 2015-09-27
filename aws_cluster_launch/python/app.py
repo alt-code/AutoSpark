@@ -12,6 +12,7 @@ SECRET_KEY = settings.SECRET_KEY
 cluster_structure = {"masters": [], "slaves": []}
 
 # User inputs constant for each run
+
 CLUSTER_NAME = "spark"
 COUNT = 3
 INSTANCE_TYPE = "t2.micro"
