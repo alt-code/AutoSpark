@@ -1,0 +1,11 @@
+{
+"name": "spark",
+"region": "nyc3",
+"size": "512mb",
+"image": "ubuntu-14-04-x64",
+"backups": false,
+"ipv6": false,
+"user_data": null,
+"private_networking": null
+"count": "3"
+}

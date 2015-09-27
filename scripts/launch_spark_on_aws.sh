@@ -8,7 +8,7 @@ cd "$current_dir/../aws_cluster_launch/python"
 sudo pip install -r requirements.txt
 
 # Executing python command
-python ec2_connector.py --name spark001 --count 4 --type t2.micro --region us-west-2 --key_name ansible_key --security_group spark_cluster
+python ec2_connector.py --name $1 --count $2 --type $3 --region $4 --key_name $5 --security_group $6
 
 # Sleep for machine to be accesible
 echo "Waiting for ec2 instances to be ready for SSH..."

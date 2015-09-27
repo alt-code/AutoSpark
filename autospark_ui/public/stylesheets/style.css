@@ -8,13 +8,32 @@ input.focus[type="number"] {
 }
 
 /* Button for cluster launch*/
-input.focus[type="submit"] {
+input.focus[type="submit"]{
+  font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #D9853B;
+  width: 100px;
+}
+
+input.template_buttons[type="submit"] {
   font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
   text-align: center;
   margin-top: 50px;
   padding: 10px;
   border-radius: 10px;
-  background-color: #D9853B
+  background-color: #D9853B;
+  margin-left: 20px;
+  width: 100px; 
+
+}
+
+.templates {
+
+ display: inline-block;
 }
 
 /* Button for provider Selection */
@@ -32,7 +51,8 @@ input.main_select[type="submit"] {
 }
 
 /* Button for provider Selection */
-input.launch_cluster[type="submit"] {
+input.launch_cluster[type="submit"]
+ {
   font: 30px "Lucida Grande", Helvetica, Arial, sans-serif;
   text-align: center;
   margin-top: 50px;
@@ -44,8 +64,11 @@ input.launch_cluster[type="submit"] {
 
 }
 
+
 input.main_select[type='submit']:hover,
-input.launch_cluster[type='submit']:hover {
+input.launch_cluster[type='submit']:hover,
+input.template_buttons[type='submit']:hover,
+input.focus[type="submit"]:hover {
   background-color: #E19D62;
   color: #412812;
 }
@@ -91,6 +114,17 @@ h1.headline {
   margin-bottom: 100px;
   color: #ECECEA
 } 
+
+h2.templates {
+  background-color: #558C89;
+  padding: 20px;
+  margin: 0px;
+  margin-top: 100px
+  margin-bottom: 10px;
+  width: 100%;
+  color: #ECECEA;
+
+}
 
 p {
   font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;

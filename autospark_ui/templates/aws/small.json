@@ -1,0 +1,8 @@
+{
+"name": "spark_small",
+"count": "5",
+"type": "t2.small",
+"region": "us-west-2",
+"key_name": "ansible_key",
+"security_group": "spark_cluster"
+}

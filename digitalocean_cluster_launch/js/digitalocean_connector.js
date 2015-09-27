@@ -21,6 +21,7 @@ var headers = {
 var node_names = []
 var droplet_ids = []
 var droplet_ips = []
+
 var cluster_name = "sparktest"
 var region = "nyc3"
 var size = "512mb"
