@@ -14,6 +14,7 @@ def main():
     # Creating a Spark Context with conf file
     sc = SparkContext(conf=conf)
 
+
     # Creating and SQL context to perform SQL queries
     sqlContext = SQLContext(sc)
 
