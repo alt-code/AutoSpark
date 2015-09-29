@@ -25,25 +25,38 @@ def main():
                                   "/../Spark_Jobs/data/",
                                   json_name)
 
-    createSQLContext(json_file_path, sqlContext)
+    parquet_file_path = createSQLContext(json_file_path, sqlContext)
+    print(parquet_file_path)
 
-    # test(json_file_path, sqlContext)
-    # word_count(sc, json_file_path, curr_path)
-
-
-def test(json_file_path, sqlContext):
-    tweets = sqlContext.jsonFile(json_file_path)
-    tweets.printSchema()
+    # Read from parquet file
+    parquetFile = sqlContext.read.parquet(parquet_file_path)
+    parquetFile.registerTempTable("tweets")
+    counter = sqlContext.sql("SELECT count(*) as cnt FROM tweets")
+    print("============= Count =================")
+    print("Count:: " + str(counter.collect()[0].cnt))
 
 
 def createSQLContext(json_file_path, sqlContext):
 
-    print("=========Inside SQL Context Creator ===========")
-    # Read the data into a data frame
-    dataframe = sqlContext.read.json(json_file_path)
+    # Saving the Tweets data as parquet
+    curr_path = os.path.dirname(os.path.abspath(__file__))
+    parq_tweets_name = "tweets.parquet"
+    parq_file_path = os.path.join(curr_path +
+                                  "/../Spark_Jobs/data/",
+                                  parq_tweets_name)
+    if os.path.exists(parq_file_path) is True:
+        print("===========Parquet File exists=============")
+        print("===========Skipping Parquet creation============")
+    else:
+        print("===========Parquet file doesnot exist=============")
+        print("=========Creating parquet file===========")
+        # Read the data into a data frame
+        tweets_df = sqlContext.read.json(json_file_path)
+        # Print the JSON Schema
+        tweets_df.printSchema()
+        tweets_df.write.parquet(parq_file_path)
 
-    # Print the JSON Schema
-    dataframe.printSchema()
+    return parq_file_path
 
 
 # Tokenizes text
