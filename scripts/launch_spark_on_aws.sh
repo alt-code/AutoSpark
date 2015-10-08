@@ -7,8 +7,10 @@ cd "$current_dir/../aws_cluster_launch/python"
 # pip install requirements
 sudo pip install -r requirements.txt
 
+#Getting a unique key_name
+key_name=$(ip route get 8.8.8.8 | awk '{print $NF; exit}')
 # Executing python command
-python ec2_connector.py --name $1 --count $2 --type $3 --region $4 --key_name $5 --security_group $6
+python ec2_connector.py --name $1 --count $2 --type $3 --region $4 --key_name $key_name --security_group $6
 
 # Sleep for machine to be accesible
 echo "Waiting for ec2 instances to be ready for SSH..."
