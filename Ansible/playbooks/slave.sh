@@ -1,0 +1,1 @@
+ansible-playbook -s --extra-vars 'MASTER_YES="false" USER="root" SPARK_URL="spark://159.203.73.195:7077" MASTER_IP=""' sparkplaybook.yml -i slave_inventory
