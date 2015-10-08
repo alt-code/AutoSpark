@@ -205,11 +205,11 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "",
                                    ["name=", "count=", "type=", "region=",
-                                    "key_name=", "security_group="])
+                                    "key_name=", "key_path="])
 
     except getopt.GetoptError:
         print('app.py --name <spark001> --count <3> --type <t2.micro>'
-              ' --region <us-west-2> --key_name <xyz> --security_group <abc>')
+              ' --region <us-west-2> --key_name <xyz> --key_path <abc>')
         sys.exit(2)
 
     print("Info: Launching cluster with arguments:")
