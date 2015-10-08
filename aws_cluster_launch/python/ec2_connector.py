@@ -231,7 +231,7 @@ def main(argv):
             REGION = arg
 
         if opt == "--key_name":
-            KEY_NAME = arg
+            KEY_NAME = "key-" + arg
 
         if opt == "--key_path":
             KEY_PATH = arg
