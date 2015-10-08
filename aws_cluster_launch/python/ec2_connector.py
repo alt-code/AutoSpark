@@ -238,9 +238,12 @@ def main(argv):
     check_ssh(conn, KEY_NAME)
 
     # Create reservation
+    # reservation = conn.run_instances(image_id=IMAGE_ID, min_count=COUNT,
+    #                                  max_count=COUNT, key_name=KEY_NAME,
+    #                                  security_groups=SECURITY_GROUPS,
+    #                                  instance_type=INSTANCE_TYPE)
     reservation = conn.run_instances(image_id=IMAGE_ID, min_count=COUNT,
                                      max_count=COUNT, key_name=KEY_NAME,
-                                     security_groups=SECURITY_GROUPS,
                                      instance_type=INSTANCE_TYPE)
 
     # Wait for public Ip to be assigned
