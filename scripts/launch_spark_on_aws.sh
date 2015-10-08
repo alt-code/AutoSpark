@@ -1,3 +1,8 @@
+#########################################################
+#                       Launch Notes
+#
+#./launch_spark_on_aws.sh <cluster name> <number of nodes> <AWS_type of instance> <full key_path>
+#########################################################
 
 current_dir="$(pwd)"
 
@@ -9,8 +14,12 @@ sudo pip install -r requirements.txt
 
 #Getting a unique key_name
 key_name=$(ip route get 8.8.8.8 | awk '{print $NF; exit}')
+
+#Setting region
+region="us-west-2"
+
 # Executing python command
-python ec2_connector.py --name $1 --count $2 --type $3 --region $4 --key_name $key_name --security_group $6
+python ec2_connector.py --name $1 --count $2 --type $3 --key_path $4 --region $region --key_name $key_name
 
 # Sleep for machine to be accesible
 echo "Waiting for ec2 instances to be ready for SSH..."

@@ -23,6 +23,7 @@ INSTANCE_TYPE = "t2.micro"
 REGION = "us-west-2"
 # KEY_NAME = "spark_cluster_manager"
 KEY_NAME = "ansible_key"
+KEY_PATH = "~/.ssh/id_rsa"
 SECURITY_GROUPS = ["spark_cluster"]
 IMAGE_ID = "ami-5189a661"
 
@@ -124,7 +125,7 @@ def wait_for_public_ip(reservation):
             time.sleep(5)
 
 
-def create_inventory_file(cluster_info):
+def create_inventory_file(cluster_info, key_path):
 
     python_file_path = os.path.dirname(os.path.abspath(__file__))
     print("Info: Current file path " + python_file_path)
@@ -140,7 +141,9 @@ def create_inventory_file(cluster_info):
     # Writing the master inventory file
     master_file.write("[sparknodes]\n")
     for master in cluster_info["masters"]:
-        master_file.write(master.ip_address + "\n")
+        master_file.write(master.ip_address +
+                          " ansible_ssh_private_key_file=" +
+                          key_path + "\n")
 
     slave_file_path = os.path.join(python_file_path +
                                    "/../../Ansible/playbooks/",
@@ -153,7 +156,9 @@ def create_inventory_file(cluster_info):
     # Writing the slave inventory file
     slave_file.write("[sparknodes]\n")
     for slave in cluster_info["slaves"]:
-        slave_file.write(slave.ip_address + "\n")
+        slave_file.write(slave.ip_address +
+                         " ansible_ssh_private_key_file=" +
+                         key_path + "\n")
 
     master_file.close()
     slave_file.close()
@@ -228,8 +233,9 @@ def main(argv):
         if opt == "--key_name":
             KEY_NAME = arg
 
-        if opt == "--security_group":
-            SECURITY_GROUPS = [arg]
+        if opt == "--key_path":
+            KEY_PATH = arg
+            # SECURITY_GROUPS = [arg]
 
     # Creating the cluster
     conn = create_connection(region=REGION)
@@ -256,7 +262,7 @@ def main(argv):
     print_master_slave_setup(cluster_info)
 
     # Writing master / slave inventory files
-    create_inventory_file(cluster_info)
+    create_inventory_file(cluster_info, KEY_PATH)
 
     # Create shell script
     create_shell_script(cluster_info)
