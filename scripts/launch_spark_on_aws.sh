@@ -4,6 +4,9 @@
 #./launch_spark_on_aws.sh <cluster name> <number of nodes> <AWS_type of instance> <full key_path>
 #########################################################
 
+#Running the machine setup script
+./setup_machine.sh
+
 current_dir="$(pwd)"
 
 # Moving to python dir
