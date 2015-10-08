@@ -9,4 +9,4 @@ sudo apt-get install npm -y
 
 # Setting up node js
 sudo apt-get install nodejs-legacy -y
-sudo ln -s /usr/bin/nodejs /usr/sbin/node -y
+sudo ln -s /usr/bin/nodejs /usr/sbin/node
