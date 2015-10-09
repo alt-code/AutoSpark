@@ -33,7 +33,7 @@ var cluster_name = args[0]
 var count = parseInt(args[1])
 var size = args[2]
 var region = args[3]
-var key_name = args[4]
+var key_name = "key-" + args[4]
 var key_path = args[5]
 // Parameters not to be modified typically
 var image = "ubuntu-14-04-x64"
@@ -190,7 +190,7 @@ function wait_for_ip(id, filename) {
             if (data.droplet.networks.v4.length > 0) {
                 console.log("Data networks:", data.droplet.networks.v4[0].ip_address)
                 var ipAddress = data.droplet.networks.v4[0].ip_address
-                fs.appendFileSync('../../Ansible/playbooks/' + filename, ipAddress + "\n")
+                fs.appendFileSync('../../Ansible/playbooks/' + filename, ipAddress + " ansible_ssh_private_key_file=" + key_path +"\n")
                 clearInterval(interval);
             }
 
