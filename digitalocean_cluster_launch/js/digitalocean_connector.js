@@ -18,19 +18,37 @@ var headers = {
     "content-type": "application/json",
     "Authorization": "Bearer " + SETTINGS.token
 }
+
 var node_names = []
 var droplet_ids = []
 var droplet_ips = []
 
-var cluster_name = "sparktest"
-var region = "nyc3"
-var size = "512mb"
+// Taking command line arguments into node program
+var args = process.argv.slice(2);
+
+// Varying values
+var cluster_name = args[0]
+var count = parseInt(args[1])
+var size = args[2]
+var region = args[3]
+var key_name = args[4]
+var key_path = args[5]
+
+console.log(cluster_name + ":" + count + ":" + size +
+    ":" + region + ":" + key_name + ":" + key_path);
+
+// var cluster_name = "sparktest"
+// var region = "nyc3"
+// var size = "512mb"
+// var count = 3
+
+// Parameters not to be modified typically
 var image = "ubuntu-14-04-x64"
 var backups = false
 var ipv6 = false
 var user_data = null
 var private_networking = null
-var count = 3
+
 
 var ssh_json = {
 
@@ -160,7 +178,7 @@ function create_ssh_keys(json_data) {
     })
 }
 
-function wait_for_ip(id,filename){
+function wait_for_ip(id, filename) {
 
     var interval = setInterval(function() {
         new_droplet.getIP(id, function(error, response) {
@@ -169,7 +187,7 @@ function wait_for_ip(id,filename){
             if (data.droplet.networks.v4.length > 0) {
                 console.log("Data networks:", data.droplet.networks.v4[0].ip_address)
                 var ipAddress = data.droplet.networks.v4[0].ip_address
-                fs.appendFileSync('../../Ansible/playbooks/'+filename, ipAddress + "\n")
+                fs.appendFileSync('../../Ansible/playbooks/' + filename, ipAddress + "\n")
                 clearInterval(interval);
             }
 
