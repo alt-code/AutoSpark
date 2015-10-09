@@ -2,7 +2,7 @@ var fs = require("fs")
 
 var text = fs.readFileSync("../../Ansible/playbooks/master_inventory").toString()
 var text_parts = text.split("\n")
-var ipAddress = text_parts[1]
+var ipAddress = text_parts[1].split(" ")[0]
 
 console.log("Info: IP Address of Master " + ipAddress)
 console.log("Info: Spark Master at spark://" + ipAddress + ":7077")
