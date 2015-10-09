@@ -6,18 +6,20 @@ var promise = require('promise')
 var async = require('async-q')
 var needle = require('needle')
 var fs = require('fs')
-    // Creating API tokens
-var digitalocean = new DIGITALOCEAN(SETTINGS.token);
 
-// locals
-var cluster_mapping = {
-    "masters": [],
-    "slaves": []
-}
+// Creating API tokens
+var public_key_setting = SETTINGS.ssh_public_key
+var do_token = SETTINGS.token
+
+// API Object
+var digitalocean = new DIGITALOCEAN(do_token);
+
 var headers = {
-    "content-type": "application/json",
-    "Authorization": "Bearer " + SETTINGS.token
-}
+        "content-type": "application/json",
+        "Authorization": "Bearer " + do_token
+    }
+
+var cluster_mapping = { "masters": [], "slaves": [] }
 
 var node_names = []
 var droplet_ids = []
@@ -33,15 +35,6 @@ var size = args[2]
 var region = args[3]
 var key_name = args[4]
 var key_path = args[5]
-
-console.log(cluster_name + ":" + count + ":" + size +
-    ":" + region + ":" + key_name + ":" + key_path);
-
-// var cluster_name = "sparktest"
-// var region = "nyc3"
-// var size = "512mb"
-// var count = 3
-
 // Parameters not to be modified typically
 var image = "ubuntu-14-04-x64"
 var backups = false
@@ -49,12 +42,22 @@ var ipv6 = false
 var user_data = null
 var private_networking = null
 
+console.log("Creating cluster with below configuration:")
+console.log(cluster_name + " : " + count + " : " + size +
+    " : " + region + " : " + key_name + " : " + key_path);
+
+// var cluster_name = "sparktest"
+// var region = "nyc3"
+// var size = "512mb"
+// var count = 3
 
 var ssh_json = {
 
-    "name": SETTINGS.key_name,
-    "public_key": SETTINGS.ssh_public_key
+    "name": key_name,
+    "public_key": public_key_setting
 }
+
+///////////////////////////////End of Settings//////////////////////////////////
 
 var new_droplet = {
         getIP: function(droplet_id, onResponse) {
