@@ -15,17 +15,20 @@ do
     echo $count
     echo $size
     echo $key_path
-    if [ "$provider" == "aws"]
+
+    if [ "$provider" = "aws"]
+    then
       cd ../scripts
       ./launch_spark_on_aws.sh $name $count $size $key_path
-    then
-    elif [ "$provider" == "digitalocean"]
+
+    elif [ "$provider" = "digitalocean"]
     then
       cd ../scripts
       ./launch_spark_on_do.sh $name $count $size $key_path
+
     else
       echo "Incorrect value of provider"
-    fi 
+    fi
     rm ./tmp/job.txt
   fi
 
