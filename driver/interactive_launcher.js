@@ -21,6 +21,14 @@ catch (err) {
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
 
+function command_executor(cmd) {
+
+	console.log('Executing :' + cmd);
+	var proc = exec(cmd, puts);
+	proc.stdout.on('data', function(data) {
+	console.log(data); 
+	});
+}
 // Starting a new prompt
 prompt.start()
 
@@ -71,11 +79,7 @@ prompt.get(['provider'], function (err, result) {
 
 				if(provider === 'aws') {
 					cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' 4 t2.small '+ssh_key_path;
-					console.log('Executing :' + cmd);
-					var proc = exec(cmd, puts);
-					proc.stdout.on('data', function(data) {
-					    console.log(data); 
-					});
+					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
 					console.log('do')
