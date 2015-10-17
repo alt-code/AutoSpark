@@ -83,7 +83,8 @@ prompt.get(['provider'], function (err, result) {
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
-					console.log('do')
+					cmd = 'sudo ./launch_spark_on_do.sh ' + name + ' 4 512mb '+ssh_key_path;
+					command_executor(cmd)
 				}
         	}
         	else if (size === 'medium') {
@@ -93,7 +94,8 @@ prompt.get(['provider'], function (err, result) {
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
-					console.log('do')
+					cmd = 'sudo ./launch_spark_on_do.sh ' + name + ' 4 1gb '+ssh_key_path;
+					command_executor(cmd)
 				}
         	}
         	else if (size === 'large') {
@@ -103,7 +105,8 @@ prompt.get(['provider'], function (err, result) {
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
-					console.log('do')
+					cmd = 'sudo ./launch_spark_on_do.sh ' + name + ' 4 2gb '+ssh_key_path;
+					command_executor(cmd)
 				}
         	}
         }
