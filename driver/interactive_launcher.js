@@ -29,6 +29,7 @@ function command_executor(cmd) {
 	console.log(data); 
 	});
 }
+
 // Starting a new prompt
 prompt.start()
 
@@ -88,7 +89,8 @@ prompt.get(['provider'], function (err, result) {
         	else if (size === 'medium') {
 
 				if(provider === 'aws') {
-					console.log ('aws')
+					cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' 4 t2.medium '+ssh_key_path;
+					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
 					console.log('do')
@@ -97,7 +99,8 @@ prompt.get(['provider'], function (err, result) {
         	else if (size === 'large') {
 
 				if(provider === 'aws') {
-					console.log ('aws')
+					cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' 4 t2.large '+ssh_key_path;
+					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
 					console.log('do')
