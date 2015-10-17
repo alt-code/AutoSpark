@@ -68,10 +68,24 @@ prompt.get(['provider'], function (err, result) {
 				ram = result.ram
 
 				if(provider === 'aws') {
-					console.log ('aws')
+					console.log ('Custom AWS')
+					prompt.get(['count', 'aws_type'], function (err, result) {
+						count = result.count
+						type = result.aws_type
+						cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
+						command_executor(cmd)
+
+					})
 				}
 				else if( provider === 'digitalocean') {
-					console.log('do')
+					console.log ('Custom Digital Ocean')
+					prompt.get(['count', 'do_type'], function (err, result) {
+						count = result.count
+						type = result.do_type
+						cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
+						command_executor(cmd)
+
+					})
 				}
 
         		})
@@ -79,7 +93,7 @@ prompt.get(['provider'], function (err, result) {
         	else if (size === 'small') {
 
 				if(provider === 'aws') {
-					cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' 4 t2.small '+ssh_key_path;
+					cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' 4 t2.small '+ ssh_key_path;
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
