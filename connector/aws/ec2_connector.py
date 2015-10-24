@@ -252,9 +252,9 @@ def main(argv):
                                      max_count=COUNT, key_name=KEY_NAME,
                                      instance_type=INSTANCE_TYPE)
 
-
-    # Enforced wait for instance id to be assigned
-    time.sleep(20)
+    # Enforced wait for instance id to be assigned - Eventual consistency
+    print("Wait for 60 seconds ; instance ids to arrive...")
+    time.sleep(60)
 
     # Wait for public Ip to be assigned
     wait_for_public_ip(reservation)
