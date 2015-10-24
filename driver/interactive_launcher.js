@@ -4,14 +4,14 @@ var sys = require('sys')
 
 // Changing directory to the script directory
 try {
-    
-    // Get current dir
-    base_dir = process.cwd()
-	console.log('Current directory: ' + process.cwd());
 
-    // Navigate to scripts directory
-    process.chdir(base_dir + '/../scripts/');
-    console.log('Scripts directory: ' + process.cwd());
+    // Getting the file directory
+    base_dir = __dirname
+
+    // Navigate to driver directory
+    process.chdir(base_dir)
+    console.log('Current directory: ' + process.cwd());
+
 }
 catch (err) {
     console.log('chdir: ' + err);
@@ -26,7 +26,7 @@ function command_executor(cmd) {
 	console.log('Executing :' + cmd);
 	var proc = exec(cmd, puts);
 	proc.stdout.on('data', function(data) {
-	console.log(data); 
+	console.log(data);
 	});
 }
 
@@ -41,7 +41,7 @@ console.log('####################################');
 console.log('Enter provider: AWS to DigitalOcean');
 
 prompt.get(['provider'], function (err, result) {
- 
+
  	provider = result.provider
     if (provider != 'aws' && provider != 'digitalocean') {
  		console.log('Incorrect provider selected. Exiting process');
@@ -72,7 +72,7 @@ prompt.get(['provider'], function (err, result) {
 					prompt.get(['count', 'aws_type'], function (err, result) {
 						count = result.count
 						type = result.aws_type
-						cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
+						cmd = 'python launch_aws.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
 						command_executor(cmd)
 
 					})
@@ -82,7 +82,7 @@ prompt.get(['provider'], function (err, result) {
 					prompt.get(['count', 'do_type'], function (err, result) {
 						count = result.count
 						type = result.do_type
-						cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
+						cmd = 'sudo ./launch_spark_on_do.sh ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
 						command_executor(cmd)
 
 					})
@@ -93,7 +93,7 @@ prompt.get(['provider'], function (err, result) {
         	else if (size === 'small') {
 
 				if(provider === 'aws') {
-					cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' 4 t2.small '+ ssh_key_path;
+					cmd = 'python launch_aws.py ' + name + ' 4 t2.small '+ ssh_key_path;
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
@@ -104,18 +104,18 @@ prompt.get(['provider'], function (err, result) {
         	else if (size === 'medium') {
 
 				if(provider === 'aws') {
-					cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' 4 t2.medium '+ssh_key_path;
+					cmd = 'python launch_aws.py ' + name + ' 4 t2.medium '+ssh_key_path;
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
-					cmd = 'sudo ./launch_spark_on_do.sh ' + name + ' 4 1gb '+ssh_key_path;
+					cmd = 'python launch_aws.py ' + name + ' 4 1gb '+ssh_key_path;
 					command_executor(cmd)
 				}
         	}
         	else if (size === 'large') {
 
 				if(provider === 'aws') {
-					cmd = 'sudo ./launch_spark_on_aws.sh ' + name + ' 4 t2.large '+ssh_key_path;
+					cmd = 'python launch_aws.py ' + name + ' 4 t2.large '+ssh_key_path;
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
