@@ -50,8 +50,11 @@ cp ~/.ssh/id_rsa.pub to /home/ubuntu/ssh_keys/id_rsa.pub
 ### Launch the cluster in interactive mode
 
 ```
-cd AutoSpark/scripts
-./main_launcher.sh
+cd AutoSpark/driver
+
+npm install
+
+node interactive_launcher.js
 ```
 
 ##### Notes:
