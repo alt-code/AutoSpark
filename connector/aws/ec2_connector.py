@@ -252,7 +252,7 @@ def main(argv):
                                      max_count=COUNT, key_name=KEY_NAME,
                                      instance_type=INSTANCE_TYPE)
 
-    
+
     # Enforced wait for instance id to be assigned
     time.sleep(20)
 

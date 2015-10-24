@@ -10,7 +10,7 @@
 current_dir="$(pwd)"
 
 # Moving to python dir
-cd "$current_dir/../digitalocean_cluster_launch/js"
+cd "$current_dir/../connector/digital_ocean"
 
 # Setting up node modules
 npm install -r package.json

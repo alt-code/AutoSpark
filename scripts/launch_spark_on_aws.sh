@@ -4,13 +4,11 @@
 #./launch_spark_on_aws.sh <cluster name> <number of nodes> <AWS_type of instance> <full key_path>
 #########################################################
 
-#Running the machine setup script
-./setup_machine.sh
-
+# Getting the present working dir
 current_dir="$(pwd)"
 
 # Moving to python dir
-cd "$current_dir/../aws_cluster_launch/python"
+cd "$current_dir/../connector/aws"
 
 # pip install requirements
 sudo pip install -r requirements.txt
