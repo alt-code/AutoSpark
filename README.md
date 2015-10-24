@@ -38,14 +38,14 @@ cp ~/.ssh/id_rsa.pub to /home/ubuntu/ssh_keys/id_rsa.pub
 ### Copying the SSH & API keys to AutoSpark settings
 
 1. ###### Copy the contents of id_rsa.pub and paste it into the below to files
-  - /aws_cluster_launch/python/settings.py
-  - /digitalocean_cluster_launch/js/settings.js
+  - /AutoSpark/connector/aws/settings.py
+  - /AutoSpark/connector/digital_ocean/settings.js
 
 2. ###### Copy the AWS Secret and Access keys to the below file
-  - /aws_cluster_launch/python/settings.py
+  - /AutoSpark/connector/aws/settings.py
 
 3. ###### Copy the Digital Ocean token in the below file
-  - /digitalocean_cluster_launch/js/settings.js
+  - /AutoSpark/connector/digital_ocean/settings.js
 
 ### Launch the cluster in interactive mode
 
