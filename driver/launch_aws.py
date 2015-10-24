@@ -45,7 +45,7 @@ def launch(args):
     command = cmd_format.format(name, count, type, key_path, region, key_name)
     print("Executing Command" + command)
 
-    subprocess.call(command, shell=True)
+    subprocess.call(["sudo", command], shell=True)
 
     # Wait for instance to be ssh ready
     print("Waiting for ec2 instances to be ready for ssh")
@@ -58,10 +58,10 @@ def launch(args):
     subprocess.call("export ANSIBLE_HOST_KEY_CHECKING=False", shell=True)
 
     print("Executing master.sh")
-    subprocess.call("./master.sh", shell=True)
+    subprocess.call(["sudo", "./master.sh"], shell=True)
 
     print("Executing slave.sh")
-    subprocess.call("./slave.sh", shell=True)
+    subprocess.call(["sudo", "./slave.sh"], shell=True)
 
 if __name__ == '__main__':
     sys.exit(launch(sys.argv[1:]))
