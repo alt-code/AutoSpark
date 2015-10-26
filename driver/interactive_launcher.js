@@ -82,7 +82,7 @@ prompt.get(['provider'], function (err, result) {
 					prompt.get(['count', 'do_type'], function (err, result) {
 						count = result.count
 						type = result.do_type
-						cmd = 'sudo ./launch_spark_on_do.sh ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
+						cmd = 'python launch_do.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
 						command_executor(cmd)
 
 					})
@@ -97,29 +97,29 @@ prompt.get(['provider'], function (err, result) {
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
-					cmd = 'sudo ./launch_spark_on_do.sh ' + name + ' 4 512mb '+ssh_key_path;
+					cmd = 'python launch_do.py ' + name + ' 4 512mb '+ ssh_key_path;
 					command_executor(cmd)
 				}
         	}
         	else if (size === 'medium') {
 
 				if(provider === 'aws') {
-					cmd = 'python launch_aws.py ' + name + ' 4 t2.medium '+ssh_key_path;
+					cmd = 'python launch_aws.py ' + name + ' 4 t2.medium '+ ssh_key_path;
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
-					cmd = 'python launch_aws.py ' + name + ' 4 1gb '+ssh_key_path;
+					cmd = 'python launch_do.py ' + name + ' 4 1gb '+ ssh_key_path;
 					command_executor(cmd)
 				}
         	}
         	else if (size === 'large') {
 
 				if(provider === 'aws') {
-					cmd = 'python launch_aws.py ' + name + ' 4 t2.large '+ssh_key_path;
+					cmd = 'python launch_aws.py ' + name + ' 4 t2.large '+ ssh_key_path;
 					command_executor(cmd)
 				}
 				else if( provider === 'digitalocean') {
-					cmd = 'sudo ./launch_spark_on_do.sh ' + name + ' 4 2gb '+ssh_key_path;
+					cmd = 'python launch_do.py ' + name + ' 4 2gb '+ ssh_key_path;
 					command_executor(cmd)
 				}
         	}
