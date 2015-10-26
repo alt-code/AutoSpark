@@ -4,5 +4,5 @@
 "type": "t2.medium",
 "region": "us-west-2",
 "key_name": "ansible_key",
-"security_group": "spark_cluster"
+"key_path": ""
 }

@@ -6,39 +6,39 @@ block content
 	form(name= "create_aws_cluster", method= "post" class="horizontal")
 		div.input
 			span.label= "Cluster Name: "
-			input(type= "text", name= "cluster_name" class="focus")
+			input(type= "text", name= "cluster_name" class="form_inp")
 
 		div.input
 			span.label= "Node Count: "
-			input(type= "number", min=0, name= "node_count" class="focus")
+			input(type= "number", min=0, name= "node_count" class="form_inp")
 
 		div.input
 			span.label= "Instance Type: "
-			input(type= "text", name= "Instance_type" class="focus")
+			input(type= "text", name= "Instance_type" class="form_inp")
 
 		div.input
 			span.label= "Region Name: "
-			input(type= "text", default="us-west-2" name= "region_name" class="focus")
+			input(type= "text", default="us-west-2" name= "region_name" class="form_inp")
 
 		div.input
 			span.label= "Key Name: "
-			input(type= "text", name="key_name" class="focus")
+			input(type= "text", name="key_name" class="form_inp")
 
 		div.input
-			span.label= "AWS Security Group: "
-			input(type="text", name="security_group" class="focus")
+			span.label= "SSH key path: "
+			input(type="text", name="security_group" class="form_inp")
 
 		div.actions
-			input(type= "submit", value= "Create" class="focus")
+			input(type= "submit", value= "Create" class="general")
 
 		<br/>
 		h2(class="templates") Templates
 		div.templates
-			input(type= "submit", value= "small" class="template_buttons" formaction="/aws/launch/small")
+			input(type= "submit", value= "small" class="template" formaction="/aws/launch/small")
 		
-			input(type= "submit", value= "medium" class="template_buttons" formaction="/aws/launch/medium")
+			input(type= "submit", value= "medium" class="template" formaction="/aws/launch/medium")
 		
-			input(type= "submit", value= "large" class="template_buttons" formaction="/aws/launch/large")
+			input(type= "submit", value= "large" class="template" formaction="/aws/launch/large")
 
 
 
