@@ -41,7 +41,7 @@ def launch(args):
 
     # Wait for instance to be ssh ready
     print("Waiting for digital ocean instances to be ready for ssh")
-    time.sleep(100)
+    time.sleep(200)
 
     # Move to ansible directory
     os.chdir(ANSIBLE_DIR)
