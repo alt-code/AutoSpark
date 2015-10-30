@@ -79,7 +79,7 @@ prompt.get(['provider'], function (err, result) {
     }
 });
 
-function get_spark_cluster_params(provider, keys=[]) {
+function get_spark_cluster_params(provider, keys) {
 
     // Getting the auth keys for aws and DO
     if (provider === "aws") {
