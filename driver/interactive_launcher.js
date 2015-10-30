@@ -64,10 +64,9 @@ prompt.get(['provider'], function (err, result) {
 
         if( size && name && ssh_key_path) {
         	if(size === 'custom') {
-        		prompt.get(['ram'], function (err, result) {
-				ram = result.ram
 
 				if(provider === 'aws') {
+
 					console.log ('Custom AWS')
 					prompt.get(['count', 'aws_type'], function (err, result) {
 						count = result.count
@@ -78,6 +77,7 @@ prompt.get(['provider'], function (err, result) {
 					})
 				}
 				else if( provider === 'digitalocean') {
+
 					console.log ('Custom Digital Ocean')
 					prompt.get(['count', 'do_type'], function (err, result) {
 						count = result.count
