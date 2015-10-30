@@ -30,10 +30,14 @@ def launch(args):
     count = args[1]
     size = args[2]
     key_path = args[3]
+    digitalocean_token = args[4]
 
     # Running python command
-    cmd_format = "sudo node digitalocean_connector.js {0} {1} {2} {3} {4} {5}"
-    command = cmd_format.format(name, count, size, region, key_name, key_path)
+    cmd_format = "sudo node digitalocean_connector.js {0} {1} {2} {3} {4} {5} {6}"
+    command = cmd_format.format(name, count, size,
+                                region, key_name, key_path,
+                                digitalocean_token)
+
     print("Executing Command" + command)
 
     subprocess.call(command, shell=True)

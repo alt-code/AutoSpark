@@ -7,34 +7,19 @@ var async = require('async-q')
 var needle = require('needle')
 var fs = require('fs')
 
-// Creating API tokens
-var public_key_setting = SETTINGS.ssh_public_key
-var do_token = SETTINGS.token
-
-// API Object
-var digitalocean = new DIGITALOCEAN(do_token);
-
-var headers = {
-        "content-type": "application/json",
-        "Authorization": "Bearer " + do_token
-    }
-
-var cluster_mapping = { "masters": [], "slaves": [] }
-
-var node_names = []
-var droplet_ids = []
-var droplet_ips = []
-
 // Taking command line arguments into node program
 var args = process.argv.slice(2);
 
-// Varying values
 var cluster_name = args[0]
 var count = parseInt(args[1])
 var size = args[2]
 var region = args[3]
 var key_name = "key-" + args[4]
 var key_path = args[5]
+var do_token = args[6]
+var public_key_setting = SETTINGS.ssh_public_key
+var cluster_mapping = { "masters": [], "slaves": [] }
+
 // Parameters not to be modified typically
 var image = "ubuntu-14-04-x64"
 var backups = false
@@ -42,14 +27,19 @@ var ipv6 = false
 var user_data = null
 var private_networking = null
 
+var node_names = []
+var droplet_ids = []
+var droplet_ips = []
+var headers = {
+        "content-type": "application/json",
+        "Authorization": "Bearer " + do_token
+    }
+    // API Object
+var digitalocean = new DIGITALOCEAN(do_token);
+
 console.log("Creating cluster with below configuration:")
 console.log(cluster_name + " : " + count + " : " + size +
     " : " + region + " : " + key_name + " : " + key_path);
-
-// var cluster_name = "sparktest"
-// var region = "nyc3"
-// var size = "512mb"
-// var count = 3
 
 var ssh_json = {
 
@@ -190,7 +180,7 @@ function wait_for_ip(id, filename) {
             if (data.droplet.networks.v4.length > 0) {
                 console.log("Data networks:", data.droplet.networks.v4[0].ip_address)
                 var ipAddress = data.droplet.networks.v4[0].ip_address
-                fs.appendFileSync('../../Ansible/playbooks/' + filename, ipAddress + " ansible_ssh_private_key_file=" + key_path +"\n")
+                fs.appendFileSync('../../Ansible/playbooks/' + filename, ipAddress + " ansible_ssh_private_key_file=" + key_path + "\n")
                 clearInterval(interval);
             }
 
@@ -292,7 +282,6 @@ key_promise.then(function(ssh_key_present) {
             }
 
             // Extract slave IP
-
             //Opening master_inventory file
             fs.writeFileSync('../../Ansible/playbooks/slave_inventory', "[sparknodes]\n");
 
