@@ -69,7 +69,7 @@ function check_ssh_key(ssh_json) {
             method: "GET",
             headers: {
                 "content-type": "application/json",
-                "Authorization": "Bearer " + SETTINGS.token
+                "Authorization": "Bearer " + do_token
             },
         }, function(error, response, body) {
             if (!error || response.status_code == 200) {
@@ -135,7 +135,7 @@ function get_ssh_key_id(key_name) {
             method: "GET",
             headers: {
                 "content-type": "application/json",
-                "Authorization": "Bearer " + SETTINGS.token
+                "Authorization": "Bearer " + do_token
             },
         }, function(error, response, body) {
             if (!error || response.status_code == 200) {
@@ -161,7 +161,7 @@ function create_ssh_keys(json_data) {
         json: true,
         headers: {
             "content-type": "application/json",
-            "Authorization": "Bearer " + SETTINGS.token
+            "Authorization": "Bearer " + do_token
         },
         json: json_data
     }, function(error, response, body) {
