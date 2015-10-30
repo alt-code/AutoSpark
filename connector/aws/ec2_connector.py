@@ -8,8 +8,8 @@ import time
 import os.path
 
 # Globals
-ACCESS_KEY = settings.ACCESS_KEY
-SECRET_KEY = settings.SECRET_KEY
+ACCESS_KEY = ""
+SECRET_KEY = ""
 PUBLIC_SSH_KEY = settings.PUBLIC_SSH_KEY.encode('utf-8')
 cluster_structure = {"masters": [], "slaves": []}
 master_file_name = "master_inventory"
@@ -28,10 +28,10 @@ SECURITY_GROUPS = ["spark_cluster"]
 IMAGE_ID = "ami-5189a661"
 
 
-def create_connection(region):
+def create_connection(region, access_key, secret_key):
     conn = boto.ec2.connect_to_region(region,
-                                      aws_access_key_id=ACCESS_KEY,
-                                      aws_secret_access_key=SECRET_KEY)
+                                      aws_access_key_id=access_key,
+                                      aws_secret_access_key=secret_key)
 
     return conn
 
@@ -205,12 +205,12 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "",
                                    ["name=", "count=", "type=", "region=",
-                                    "key_name=", "key_path="])
+                                    "key_name=", "key_path=",
+                                    "aws_access_key=", "aws_secret_key="])
 
     except getopt.GetoptError:
-        print('app.py --name <spark001> --count <3> --type <t2.micro>'
-              ' --region <us-west-2> --key_name <xyz> --key_path <abc>')
-        sys.exit(2)
+        print("Incorrect Command line arguments")
+        sys.exit(1)
 
     print("Info: Launching cluster with arguments:")
     print(opts)
@@ -235,19 +235,20 @@ def main(argv):
 
         if opt == "--key_path":
             KEY_PATH = arg
-            # SECURITY_GROUPS = [arg]
+
+        if opt == "--aws_access_key":
+            ACCESS_KEY = arg
+
+        if opt == "--aws_secret_key":
+            SECRET_KEY = arg
 
     # Creating the cluster
-    conn = create_connection(region=REGION)
+    conn = create_connection(region=REGION,
+                             access_key=ACCESS_KEY, secret_key=SECRET_KEY)
 
     # Check if exists else insert public SSH
     check_ssh(conn, KEY_NAME)
 
-    # Create reservation
-    # reservation = conn.run_instances(image_id=IMAGE_ID, min_count=COUNT,
-    #                                  max_count=COUNT, key_name=KEY_NAME,
-    #                                  security_groups=SECURITY_GROUPS,
-    #                                  instance_type=INSTANCE_TYPE)
     reservation = conn.run_instances(image_id=IMAGE_ID, min_count=COUNT,
                                      max_count=COUNT, key_name=KEY_NAME,
                                      instance_type=INSTANCE_TYPE)
@@ -271,8 +272,6 @@ def main(argv):
     # Create shell script
     create_shell_script(cluster_info)
 
+
 if __name__ == '__main__':
     main(sys.argv[1:])
-
-# python ec2_connector.py --name spark001 --count 3 --type t2.micro
-# --region us-west-2 --key_name ansible_key --security_group spark_cluster

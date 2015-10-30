@@ -119,7 +119,7 @@ function get_spark_cluster_params(provider, keys) {
                     prompt.get(['count', 'aws_type'], function (err, result) {
                         count = result.count
                         type = result.aws_type
-                        cmd = 'python launch_aws.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path;
+                        cmd = 'python launch_aws.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key;
                         command_executor(cmd)
 
                     })
@@ -139,7 +139,7 @@ function get_spark_cluster_params(provider, keys) {
             } else if (size === 'small') {
 
                 if(provider === 'aws') {
-                    cmd = 'python launch_aws.py ' + name + ' 4 t2.small ' + ssh_key_path;
+                    cmd = 'python launch_aws.py ' + name + ' 4 t2.small ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
@@ -149,7 +149,7 @@ function get_spark_cluster_params(provider, keys) {
             } else if (size === 'medium') {
 
                 if(provider === 'aws') {
-                    cmd = 'python launch_aws.py ' + name + ' 4 t2.medium ' + ssh_key_path;
+                    cmd = 'python launch_aws.py ' + name + ' 4 t2.medium ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
@@ -159,7 +159,7 @@ function get_spark_cluster_params(provider, keys) {
             } else if (size === 'large') {
 
                 if(provider === 'aws') {
-                    cmd = 'python launch_aws.py ' + name + ' 4 t2.large ' + ssh_key_path;
+                    cmd = 'python launch_aws.py ' + name + ' 4 t2.large ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
