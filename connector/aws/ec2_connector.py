@@ -97,7 +97,7 @@ def print_master_slave_setup(cluster_info):
 
 def insert_ssh(conn, key_name, ssh_pub):
     
-    print("Inserting key value - " + ssh_pub)
+    print("Inserting a new key pair...")
     key_pair = conn.import_key_pair(key_name, ssh_pub)
 
     return key_pair

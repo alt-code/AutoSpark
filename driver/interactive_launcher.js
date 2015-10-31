@@ -100,12 +100,12 @@ function get_spark_cluster_params(provider, keys) {
     console.log('Path to ssh public key to add it to authorized keys')
     console.log('\n')
 
-    prompt.get(['size', 'name', 'key_path', 'ssh_pub_path'], function (err, result) {
+    prompt.get(['size', 'name', 'ssh_private_key_path', 'ssh_public_key_path'], function (err, result) {
 
         size = result.size
         name = result.name
-        ssh_key_path = result.key_path
-        ssh_pub_path = result.ssh_pub_path 
+        ssh_key_path = result.ssh_private_key_path
+        ssh_pub_path = result.ssh_public_key_path 
 
 
         if( size && name && ssh_key_path && ssh_pub_path) {
@@ -138,30 +138,36 @@ function get_spark_cluster_params(provider, keys) {
             } else if (size === 'small') {
 
                 if(provider === 'aws') {
+
                     cmd = 'python launch_aws.py ' + name + ' 4 t2.small ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
+
                     cmd = 'python launch_do.py ' + name + ' 4 512mb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
             } else if (size === 'medium') {
 
                 if(provider === 'aws') {
+
                     cmd = 'python launch_aws.py ' + name + ' 4 t2.medium ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
+
                     cmd = 'python launch_do.py ' + name + ' 4 1gb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
             } else if (size === 'large') {
 
                 if(provider === 'aws') {
+
                     cmd = 'python launch_aws.py ' + name + ' 4 t2.large ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
+                    
                     cmd = 'python launch_do.py ' + name + ' 4 2gb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }

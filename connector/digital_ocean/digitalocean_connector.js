@@ -17,7 +17,8 @@ var region = args[3]
 var key_name = "key-" + args[4]
 var key_path = args[5]
 var do_token = args[6]
-var public_key_setting = SETTINGS.ssh_public_key
+var ssh_pub_key_path = args[7]
+var public_key_setting = fs.readFileSync(ssh_pub_key_path, "utf8");
 var cluster_mapping = { "masters": [], "slaves": [] }
 
 // Parameters not to be modified typically
