@@ -10,6 +10,7 @@ import os.path
 # Globals
 ACCESS_KEY = ""
 SECRET_KEY = ""
+SSH_PUB_KEY_PATH = ""
 PUBLIC_SSH_KEY = settings.PUBLIC_SSH_KEY.encode('utf-8')
 cluster_structure = {"masters": [], "slaves": []}
 master_file_name = "master_inventory"
@@ -94,13 +95,15 @@ def print_master_slave_setup(cluster_info):
     print("=============== End ==================")
 
 
-def insert_ssh(conn, key_name):
-    # print(PUBLIC_SSH_KEY)
-    key_pair = conn.import_key_pair(key_name, PUBLIC_SSH_KEY)
+def insert_ssh(conn, key_name, ssh_pub):
+    
+    print("Inserting key value - " + ssh_pub)
+    key_pair = conn.import_key_pair(key_name, ssh_pub)
+
     return key_pair
 
 
-def check_ssh(conn, key_name):
+def check_ssh(conn, key_name, ssh_pub):
     try:
         key = conn.get_all_key_pairs(keynames=[key_name])[0]
         print("Info: Found Key with name - " + key.name)
@@ -111,7 +114,7 @@ def check_ssh(conn, key_name):
             print("Info: Creating keypair: " + key_name)
 
             # Create an SSH key to use when logging into instances.
-            key_pair = insert_ssh(conn, key_name)
+            key_pair = insert_ssh(conn, key_name, ssh_pub)
             print("Success: Created a new keypair")
             print(key_pair)
 
@@ -206,7 +209,8 @@ def main(argv):
         opts, args = getopt.getopt(argv, "",
                                    ["name=", "count=", "type=", "region=",
                                     "key_name=", "key_path=",
-                                    "aws_access_key=", "aws_secret_key="])
+                                    "aws_access_key=", "aws_secret_key=",
+                                    "ssh_pub_key_path="])
 
     except getopt.GetoptError:
         print("Incorrect Command line arguments")
@@ -242,13 +246,26 @@ def main(argv):
         if opt == "--aws_secret_key":
             SECRET_KEY = arg
 
+        if opt == "--ssh_pub_key_path":
+            SSH_PUB_KEY_PATH = arg 
+
+    #Getting public ssh key from file
+    
+    ssh_pub_value_enc = ""
+
+    with open(SSH_PUB_KEY_PATH) as ssh_pub_file:
+    
+        ssh_pub_value = ssh_pub_file.read()
+        ssh_pub_value_enc = ssh_pub_value.encode('utf-8')
+
     # Creating the cluster
     conn = create_connection(region=REGION,
                              access_key=ACCESS_KEY, secret_key=SECRET_KEY)
 
     # Check if exists else insert public SSH
-    check_ssh(conn, KEY_NAME)
+    check_ssh(conn, KEY_NAME, ssh_pub_value_enc)
 
+    # Launch the instances
     reservation = conn.run_instances(image_id=IMAGE_ID, min_count=COUNT,
                                      max_count=COUNT, key_name=KEY_NAME,
                                      instance_type=INSTANCE_TYPE)
@@ -259,7 +276,6 @@ def main(argv):
 
     # Wait for public Ip to be assigned
     wait_for_public_ip(reservation)
-
     cluster_info = add_name_tags(reservation, CLUSTER_NAME, cluster_structure)
 
     # Check cluster information for Warnings
