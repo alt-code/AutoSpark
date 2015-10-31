@@ -12,7 +12,6 @@ ANSIBLE_DIR = BASE_DIR + "/../Ansible/playbooks/"
 def launch(args):
     # Moving to the Digital Ocean Launcher dir
     os.chdir(DO_LAUNCH_DIR)
-
     # Printing the current dir
     print(os.getcwd())
 
@@ -31,12 +30,13 @@ def launch(args):
     size = args[2]
     key_path = args[3]
     digitalocean_token = args[4]
+    ssh_pub_key_path = args[5]
 
     # Running python command
-    cmd_format = "sudo node digitalocean_connector.js {0} {1} {2} {3} {4} {5} {6}"
+    cmd_format = "sudo node digitalocean_connector.js {0} {1} {2} {3} {4} {5} {6} {7}"
     command = cmd_format.format(name, count, size,
                                 region, key_name, key_path,
-                                digitalocean_token)
+                                digitalocean_token, ssh_pub_key_path)
 
     print("Executing Command" + command)
 

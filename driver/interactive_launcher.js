@@ -96,20 +96,19 @@ function get_spark_cluster_params(provider, keys) {
     console.log('\n')
     console.log('Cluster size - small /medium / large / custom');
     console.log('Cluster Name - User selected name for cluster identification');
-    console.log('Path to ssh key pair to access the cluster');
+    console.log('Path to ssh private key to access the cluster');
+    console.log('Path to ssh public key to add it to authorized keys')
     console.log('\n')
 
-    prompt.get(['size', 'name', 'key_path'], function (err, result) {
+    prompt.get(['size', 'name', 'key_path', 'ssh_pub_path'], function (err, result) {
 
         size = result.size
         name = result.name
         ssh_key_path = result.key_path
+        ssh_pub_path = result.ssh_pub_path 
 
-        console.log('size :- ' + size);
-        console.log('name :- ' + name);
-        console.log('ssh_key_path :- ' + ssh_key_path);
 
-        if( size && name && ssh_key_path) {
+        if( size && name && ssh_key_path && ssh_pub_path) {
 
             if(size === 'custom') {
 
@@ -119,7 +118,7 @@ function get_spark_cluster_params(provider, keys) {
                     prompt.get(['count', 'aws_type'], function (err, result) {
                         count = result.count
                         type = result.aws_type
-                        cmd = 'python launch_aws.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key;
+                        cmd = 'python launch_aws.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key + ' ' + ssh_pub_path;
                         command_executor(cmd)
 
                     })
@@ -130,7 +129,7 @@ function get_spark_cluster_params(provider, keys) {
                     prompt.get(['count', 'do_type'], function (err, result) {
                         count = result.count
                         type = result.do_type
-                        cmd = 'python launch_do.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path + ' ' + digitalocean_token;
+                        cmd = 'python launch_do.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                         command_executor(cmd)
 
                     })
@@ -139,31 +138,31 @@ function get_spark_cluster_params(provider, keys) {
             } else if (size === 'small') {
 
                 if(provider === 'aws') {
-                    cmd = 'python launch_aws.py ' + name + ' 4 t2.small ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key;
+                    cmd = 'python launch_aws.py ' + name + ' 4 t2.small ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
-                    cmd = 'python launch_do.py ' + name + ' 4 512mb ' + ssh_key_path + ' ' + digitalocean_token;
+                    cmd = 'python launch_do.py ' + name + ' 4 512mb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
             } else if (size === 'medium') {
 
                 if(provider === 'aws') {
-                    cmd = 'python launch_aws.py ' + name + ' 4 t2.medium ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key;
+                    cmd = 'python launch_aws.py ' + name + ' 4 t2.medium ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
-                    cmd = 'python launch_do.py ' + name + ' 4 1gb ' + ssh_key_path + ' ' + digitalocean_token;
+                    cmd = 'python launch_do.py ' + name + ' 4 1gb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
             } else if (size === 'large') {
 
                 if(provider === 'aws') {
-                    cmd = 'python launch_aws.py ' + name + ' 4 t2.large ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key;
+                    cmd = 'python launch_aws.py ' + name + ' 4 t2.large ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
-                    cmd = 'python launch_do.py ' + name + ' 4 2gb ' + ssh_key_path + ' ' + digitalocean_token;
+                    cmd = 'python launch_do.py ' + name + ' 4 2gb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
             }

@@ -41,12 +41,14 @@ def launch(args):
     key_path = args[3]
     aws_access_key = args[4]
     aws_secret_key = args[5]
+    ssh_pub_key_path = args[6]
 
     # Running python command
-    cmd_format = "python ec2_connector.py --name {0} --count {1} --type {2} --key_path {3} --region {4} --key_name {5} --aws_access_key {6} --aws_secret_key {7}"
+    cmd_format = "python ec2_connector.py --name {0} --count {1} --type {2} --key_path {3} --region {4} --key_name {5} --aws_access_key {6} --aws_secret_key {7} --ssh_pub_key_path {8}"
     command = cmd_format.format(name, count, type,
                                 key_path, region, key_name,
-                                aws_access_key, aws_secret_key)
+                                aws_access_key, aws_secret_key, ssh_pub_key_path)
+
     print("Executing Command" + command)
 
     subprocess.call(command, shell=True)
