@@ -105,7 +105,7 @@ function get_spark_cluster_params(provider, keys) {
         size = result.size
         name = result.name
         ssh_key_path = result.ssh_private_key_path
-        ssh_pub_path = result.ssh_public_key_path 
+        ssh_pub_path = result.ssh_public_key_path
 
 
         if( size && name && ssh_key_path && ssh_pub_path) {
@@ -167,7 +167,7 @@ function get_spark_cluster_params(provider, keys) {
                     command_executor(cmd)
                 }
                 else if( provider === 'digitalocean') {
-                    
+
                     cmd = 'python launch_do.py ' + name + ' 4 2gb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
