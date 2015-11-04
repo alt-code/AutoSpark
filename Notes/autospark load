@@ -1,0 +1,6 @@
+# Notes for transfering data to cluster
+
+### Steps needed
+1. Convert the spark/spark_latest/bin folder to chmod 777 
+2. scp <datafile> <master ip>:/spark/spark_latest/bin/<datafile>
+3. 
