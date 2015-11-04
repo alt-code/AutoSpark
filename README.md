@@ -21,6 +21,29 @@ Auto spinning spark clusters for text analysis and machine learning.
 ```
 sudo apt-get install git
 ```
+2. Updates the instances
+```
+sudo apt-get update -y
+```
+
+3. Install pip
+```
+sudo apt-get install python-pip -y
+```
+
+4. Setting up node and npm
+```
+sudo apt-get install npm -y
+sudo apt-get install nodejs-legacy -y
+sudo ln -s /usr/bin/nodejs /usr/sbin/node
+```
+
+5. Install ansible
+```
+sudo apt-get install software-properties-common -y
+sudo apt-add-repository ppa:ansible/ansible -y
+sudo apt-get install ansible -y
+```
 
 2. Clone the AutoSpark Repo
 ```
@@ -34,18 +57,6 @@ mkdir /home/ubuntu/ssh_keys
 cp ~/.ssh/id_rsa  to /home/ubuntu/ssh_keys/id_rsa
 cp ~/.ssh/id_rsa.pub to /home/ubuntu/ssh_keys/id_rsa.pub
 ```
-
-### Copying the SSH & API keys to AutoSpark settings
-
-1. ###### Copy the contents of id_rsa.pub and paste it into the below to files
-  - /AutoSpark/connector/aws/settings.py
-  - /AutoSpark/connector/digital_ocean/settings.js
-
-2. ###### Copy the AWS Secret and Access keys to the below file
-  - /AutoSpark/connector/aws/settings.py
-
-3. ###### Copy the Digital Ocean token in the below file
-  - /AutoSpark/connector/digital_ocean/settings.js
 
 ### Launch the cluster in interactive mode
 
