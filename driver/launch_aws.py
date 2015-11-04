@@ -16,7 +16,7 @@ def install_packages(filename):
             if package != "\n":
                 cmd = 'sudo pip install {0}'
                 cmd_fmt = cmd.format(package)
-                subprocess.call(cmd, shell=True)
+                subprocess.call(cmd_fmt, shell=True)
 
 
 def launch(args):
