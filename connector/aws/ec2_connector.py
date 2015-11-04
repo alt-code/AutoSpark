@@ -96,7 +96,7 @@ def print_master_slave_setup(cluster_info):
 
 
 def insert_ssh(conn, key_name, ssh_pub):
-    
+
     print("Inserting a new key pair...")
     key_pair = conn.import_key_pair(key_name, ssh_pub)
 
@@ -247,14 +247,14 @@ def main(argv):
             SECRET_KEY = arg
 
         if opt == "--ssh_pub_key_path":
-            SSH_PUB_KEY_PATH = arg 
+            SSH_PUB_KEY_PATH = arg
 
     #Getting public ssh key from file
-    
+
     ssh_pub_value_enc = ""
 
     with open(SSH_PUB_KEY_PATH) as ssh_pub_file:
-    
+
         ssh_pub_value = ssh_pub_file.read()
         ssh_pub_value_enc = ssh_pub_value.encode('utf-8')
 

@@ -34,9 +34,9 @@ function command_executor(cmd) {
 prompt.start()
 
 
-console.log('####################################');
-console.log('##     Welcome to AutoSpark       ##');
-console.log('####################################');
+console.log('#########################################');
+console.log('##     Welcome to AutoSpark Launcher   ##');
+console.log('#########################################');
 
 console.log('Enter provider: AWS to DigitalOcean');
 

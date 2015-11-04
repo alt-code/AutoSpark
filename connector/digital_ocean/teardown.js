@@ -16,25 +16,33 @@ var req_headers = {
 
 function get_instances_by_name(clustername) {
 
-	return new promise(function(resolve, reject) { 
+	return new promise(function(resolve, reject) {
 
         request({
-	        url: "https://api.digitalocean.com/v2/droplets?page=1&per_page=1",
+	        url: "https://api.digitalocean.com/v2/droplets?page=1&per_page=100",
 	        method: "GET",
-	        headers: req_headers }, 
+	        headers: req_headers },
 	        function(error, response, body) {
 
 	            if (!error || response.status_code == 200) {
 	                body_json = JSON.parse(body)
 	                droplets = body_json["droplets"]
 
+	                // Capturing id of droplets in the current tear down cluster
 	                var droplet_ids = []
 	                for (i in droplets) {
 
-	                	droplet_ids.push(droplets[i]['id'])
+	                	droplet_id = droplets[i]['id']
+	                	droplet_name = droplets[i]['name']
+
+	                	if (droplet_name.indexOf(clustername) > -1 )
+	                	{
+		                	console.log("Node in the current cluster found - " + droplet_name)
+		                	droplet_ids.push(droplets[i]['id'])
+	                	}
+
 	                }
 
-	                console.log(droplet_ids);
 	                resolve(droplet_ids)
 
 	            }
@@ -44,7 +52,23 @@ function get_instances_by_name(clustername) {
 	});
 }
 
-var output = get_instances_by_name('spark');
-output.then(function(){
-	console.log("done")
+var cluster_nodes = get_instances_by_name(cluster_name);
+cluster_nodes.then(function(droplet_ids){
+
+    console.log("Deleting cluster nodes")
+    for (i in droplet_ids)
+    {
+        droplet_id = droplet_ids[i]
+
+        request({
+            url: "https://api.digitalocean.com/v2/droplets/" + droplet_id,
+            method: "DELETE",
+            headers: req_headers },
+            function(error, response, body) {
+
+                if (!error || response.status_code == 200) {
+                    console.log("Delete successful")
+                }
+        });
+    }
 })
