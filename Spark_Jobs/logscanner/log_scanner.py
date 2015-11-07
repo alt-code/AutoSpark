@@ -37,7 +37,7 @@ def main(args):
     # Creating a Spark Context with conf file
     sc = SparkContext(conf=conf)
 
-    txt_logs = sc.textFile(file_path).parallelize().filter(lambda line: check(line))
+    txt_logs = sc.textFile(file_path).filter(lambda line: check(line))
     access_logs = txt_logs.map(lambda line: AccessLog(line))
 
     #  Getting response_codes from log objects and caching it
