@@ -18,6 +18,4 @@ echo "scp $spark_job_file_path $spark_master_ip:/spark/spark_latest/bin/$job_nam
 scp $spark_job_file_path $spark_master_ip:/spark/spark_latest/bin/$job_name_at_destination
 
 echo "ssh -l ubuntu $spark_master_ip /spark/spark_latest/bin/$job_name_at_destination $spark_context_url"
-ssh $spark_master_ip
-sudo bash
-/spark/spark_latest/bin/pyspark /spark/spark_latest/bin/$job_name_at_destination $spark_context_url
+ssh -l ubuntu $spark_master_ip sudo /spark/spark_latest/bin/pyspark /spark/spark_latest/bin/$job_name_at_destination $spark_context_url
