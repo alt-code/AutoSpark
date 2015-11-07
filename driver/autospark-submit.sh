@@ -9,10 +9,10 @@ read spark_context_url
 echo -n "Enter spark job file path > "
 read spark_job_file_path
 
-echo -n "Enter filename to use at destination"
+echo -n "Enter job filename to use at destination > "
 read job_name_at_destination
 
-echo -n "Enter datapath to use at destination"
+echo -n "Enter datapath to use at destination > "
 read data_path_destination
 
 echo "Executing the command... "
