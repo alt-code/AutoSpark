@@ -1,9 +1,13 @@
 
+# Accepting the spark url and data path
+echo -n "Enter spark_context_url > "
+read spark_url
 
-# Acceptig the spark url and data path
-spark_url=$1
-data_file_path=$2
-filename_at_destination=$3
+echo -n "Enter Data File Path > "
+read data_file_path
+
+echo -n "Enter Filename to use at Destination"
+read filename_at_destination
 
 echo "Spark URL provided -- $spark_url"
 
