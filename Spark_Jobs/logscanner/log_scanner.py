@@ -27,8 +27,6 @@ def main(args):
     conf = SparkConf()
     conf.setMaster(spark_master)
     conf.setAppName("Log Scanner")
-    conf.set("spark.executor.memory", "3g")
-    conf.set("spark.driver.memory", "4g")
 
     # Creating a Spark Context with conf file
     sc = SparkContext(conf=conf)
