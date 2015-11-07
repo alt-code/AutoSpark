@@ -15,7 +15,8 @@ with open(MASTER_INVENTORY) as master_file:
     count = 0
     for line in master_file:
         if count != 0:
-            nodes_array.append(line.replace("\n", ""))
+            ip_addr = line.split(" ")[0]
+            nodes_array.append(ip_addr)
 
         count += 1
 
@@ -24,7 +25,8 @@ with open(SLAVE_INVENTORY) as slave_file:
     count = 0
     for line in slave_file:
         if count != 0:
-            nodes_array.append(line.replace("\n", ""))
+            ip_addr = line.split(" ")[0]
+            nodes_array.append(ip_addr)
 
         count += 1
 
