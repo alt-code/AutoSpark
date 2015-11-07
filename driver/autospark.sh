@@ -14,7 +14,7 @@ then
 elif [ $task == "load_data" ]
 then
     echo "Calling Load Data script"
-    ./autospark-load.sh
+    python autospark-load.py
 
 elif [ $task == "submit_job" ]
 then
