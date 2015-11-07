@@ -12,11 +12,11 @@ read spark_job_file_path
 echo -n "Enter job filename to use at destination > "
 read job_name_at_destination
 
-echo -n "Enter datapath to use at destination > "
-read data_path_destination
+echo -n "Enter Name of Data file > "
+read data_file_name
 
 echo "Executing the command... "
 echo "scp $spark_job_file_path $spark_master_ip:/spark/spark_latest/bin/$job_name_at_destination"
 scp $spark_job_file_path $spark_master_ip:/spark/spark_latest/bin/$job_name_at_destination
 
-ssh -l ubuntu $spark_master_ip 'sudo /spark/spark_latest/bin/pyspark /spark/spark_latest/bin/$job_name_at_destination $spark_context_url $data_path_destination'
+ssh -l ubuntu $spark_master_ip 'sudo /spark/spark_latest/bin/pyspark /spark/spark_latest/bin/$job_name_at_destination $spark_context_url $data_file_name'

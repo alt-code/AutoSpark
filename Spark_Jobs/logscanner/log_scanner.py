@@ -1,5 +1,9 @@
 from pyspark import SparkConf, SparkContext
 import sys
+import os
+
+
+CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class AccessLog:
@@ -23,7 +27,9 @@ def main(args):
 
     # Setting the cluster configuration parameters
     spark_master = args[0]
-    spark_data_path = args[1]
+    spark_data_file_name = args[1]
+    file_path = CURR_DIR + "/" + spark_data_file_name
+
     conf = SparkConf()
     conf.setMaster(spark_master)
     conf.setAppName("Log Scanner")
@@ -31,7 +37,7 @@ def main(args):
     # Creating a Spark Context with conf file
     sc = SparkContext(conf=conf)
 
-    txt_logs = sc.textFile(spark_data_path).filter(lambda line: check(line))
+    txt_logs = sc.textFile(file_path).parallelize().filter(lambda line: check(line))
     access_logs = txt_logs.map(lambda line: AccessLog(line))
 
     #  Getting response_codes from log objects and caching it
