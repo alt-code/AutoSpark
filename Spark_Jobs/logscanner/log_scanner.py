@@ -18,11 +18,12 @@ class AccessLog:
 
 def main(args):
 
-    if len(args) < 1:
+    if len(args) < 2:
         sys.exit(1)
 
     # Setting the cluster configuration parameters
     spark_master = args[0]
+    spark_data_path = args[1]
     conf = SparkConf()
     conf.setMaster(spark_master)
     conf.setAppName("Log Scanner")
@@ -32,7 +33,7 @@ def main(args):
     # Creating a Spark Context with conf file
     sc = SparkContext(conf=conf)
 
-    txt_logs = sc.textFile('nasalogs').filter(lambda line: check(line))
+    txt_logs = sc.textFile(spark_data_path).filter(lambda line: check(line))
     access_logs = txt_logs.map(lambda line: AccessLog(line))
 
     #  Getting response_codes from log objects and caching it
