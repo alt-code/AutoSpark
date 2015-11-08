@@ -24,7 +24,7 @@ function puts(error, stdout, stderr) { sys.puts(stdout) }
 function command_executor(cmd) {
 
 	console.log('Executing :' + cmd);
-	var proc = exec(cmd, puts);
+	var proc = exec(cmd);
 	proc.stdout.on('data', function(data) {
 	console.log(data);
 	});
