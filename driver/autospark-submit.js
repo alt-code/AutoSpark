@@ -29,15 +29,13 @@ prompt.get(['spark_master_ip','spark_context_url','spark_job_file_path', 'job_na
     data_file_name = result.data_file_name
 
     // Executing the spark job
-    echo "Copying the program to the remote spark master..."
+    console.log("Copying the program to the remote spark master...")
     cmd = "scp " + spark_job_file_path + " " + spark_master_ip + ":/home/ubuntu/" + job_name_at_destination
     command_executor(cmd)
-    echo "Copy complete."
 
-    echo "Running spark job on master..."
+    console.log("Running spark job on master...")
     cmd = "ssh -l ubuntu " + spark_master_ip + " 'sudo /spark/spark_latest/bin/pyspark /home/ubuntu/"+ job_name_at_destination + " " + spark_context_url + " " + data_file_name + "'"
     command_executor(cmd)
-    echo "Job Execution complete."
 
     // Prompt ends here
     });
