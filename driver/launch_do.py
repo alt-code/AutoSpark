@@ -11,10 +11,8 @@ ANSIBLE_DIR = BASE_DIR + "/../Ansible/playbooks/"
 
 def execute(command):
     print("Executing Command" + command)
-    popen = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    lines_iterator = iter(popen.stdout.readline, b"")
-    for line in lines_iterator:
-        print(line)
+    out = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True).communicate()
+    print(out[0])
 
 
 def launch(args):
