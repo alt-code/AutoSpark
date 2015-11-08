@@ -19,6 +19,14 @@ def install_packages(filename):
                 subprocess.call(cmd_fmt, shell=True)
 
 
+def execute(command):
+    print("Executing Command" + command)
+    popen = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    lines_iterator = iter(popen.stdout.readline, b"")
+    for line in lines_iterator:
+        print(line)
+
+
 def launch(args):
     # Moving to the AWS Launcher dir
     os.chdir(AWS_LAUNCHER_DIR)
@@ -51,25 +59,28 @@ def launch(args):
                                 key_path, region, key_name,
                                 aws_access_key, aws_secret_key, ssh_pub_key_path)
 
-    print("Executing Command" + command)
-
-    subprocess.call(command, shell=True)
+    execute(command)
+    # subprocess.call(command, shell=True)
 
     # Wait for instance to be ssh ready
     print("Waiting for ec2 instances to be ready for ssh")
-    time.sleep(200)
+    time.sleep(250)
 
     # Move to ansible directory
     os.chdir(ANSIBLE_DIR)
 
     # Setting the shell to ignore ssh check
-    subprocess.call("export ANSIBLE_HOST_KEY_CHECKING=False", shell=True)
+    # subprocess.call("export ANSIBLE_HOST_KEY_CHECKING=False", shell=True)
 
     print("Executing master.sh")
-    subprocess.call("sudo ./master.sh", shell=True)
+    cmd = "sudo ./master.sh"
+    execute(cmd)
+    # subprocess.call("sudo ./master.sh", shell=True)
 
     print("Executing slave.sh")
-    subprocess.call("sudo ./slave.sh", shell=True)
+    cmd = "sudo ./slave.sh"
+    execute(cmd)
+    # subprocess.call("sudo ./slave.sh", shell=True)
 
 if __name__ == '__main__':
     sys.exit(launch(sys.argv[1:]))

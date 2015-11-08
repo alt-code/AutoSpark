@@ -9,6 +9,14 @@ DO_LAUNCH_DIR = BASE_DIR + "/../connector/digital_ocean/"
 ANSIBLE_DIR = BASE_DIR + "/../Ansible/playbooks/"
 
 
+def execute(command):
+    print("Executing Command" + command)
+    popen = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    lines_iterator = iter(popen.stdout.readline, b"")
+    for line in lines_iterator:
+        print(line)
+
+
 def launch(args):
     # Moving to the Digital Ocean Launcher dir
     os.chdir(DO_LAUNCH_DIR)
@@ -39,25 +47,32 @@ def launch(args):
                                 digitalocean_token, ssh_pub_key_path)
 
     print("Executing Command" + command)
+    execute(command)
 
-    subprocess.call(command, shell=True)
-    subprocess.call("sudo node create_shell_scripts.js", shell=True)
+    cmd = "sudo node create_shell_scripts.js"
+    execute(cmd)
+
+    # subprocess.call(command, shell=True)
+    # subprocess.call("sudo node create_shell_scripts.js", shell=True)
 
     # Wait for instance to be ssh ready
     print("Waiting for digital ocean instances to be ready for ssh")
-    time.sleep(200)
+    time.sleep(250)
 
     # Move to ansible directory
     os.chdir(ANSIBLE_DIR)
 
     # Setting the shell to ignore ssh check
-    subprocess.call("export ANSIBLE_HOST_KEY_CHECKING=False", shell=True)
+    # subprocess.call("export ANSIBLE_HOST_KEY_CHECKING=False", shell=True)
 
     print("Executing master.sh")
-    subprocess.call("sudo ./master.sh", shell=True)
+    cmd = "sudo ./master.sh"
+    execute(cmd)
 
     print("Executing slave.sh")
-    subprocess.call("sudo ./slave.sh", shell=True)
+    cmd = "sudo ./slave.sh"
+    execute(cmd)
+    # subprocess.call("sudo ./slave.sh", shell=True)
 
 if __name__ == '__main__':
     sys.exit(launch(sys.argv[1:]))
