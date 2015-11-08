@@ -17,13 +17,15 @@ Auto spinning spark clusters for text analysis and machine learning.
 4. Copy the token to a safe place
 
 ### Instructions for launching clusters using Ubuntu
-1. Install git on the system
-```
-sudo apt-get install git
-```
-2. Updates the instances
+
+1. Updates the driver machine
 ```
 sudo apt-get update -y
+```
+
+2. Install git on the system
+```
+sudo apt-get install git
 ```
 
 3. Install pip
@@ -54,21 +56,49 @@ git clone https://github.com/alt-code/AutoSpark.git
 ```
 ssh-keygen -t rsa
 mkdir /home/ubuntu/ssh_keys
-cp ~/.ssh/id_rsa  to /home/ubuntu/ssh_keys/id_rsa
-cp ~/.ssh/id_rsa.pub to /home/ubuntu/ssh_keys/id_rsa.pub
+cp ~/.ssh/id_rsa /home/ubuntu/ssh_keys/id_rsa
+cp ~/.ssh/id_rsa.pub /home/ubuntu/ssh_keys/id_rsa.pub
 ```
 
-### Launch the cluster in interactive mode
+## AutoSpark Usage:
+
+### Install AutoSpark Dependencies
 
 ```
 cd AutoSpark/driver
 
 npm install
 
-node interactive_launcher.js
 ```
 
-##### Notes:
+### Launch cluster
+```
+node autospark-cluster-launcher.js
+
+Note: Follow Instructions. Keep the AWS keys and digital ocean tokens handy.
+```
+
+### Load Data onto the cluster
+```
+node autospark-load.js
+
+```
+
+### Submit Spark Job on the cluster
+```
+node autospark-submit.js
+
+```
+
+### Tear down the cluster
+```
+node autospark-teardown.js
+
+Note: Follow Instructions. Keep the AWS keys and digital ocean tokens handy.
+```
+
+
+## Notes:
 ###### Detailed Steps for setting up a Spark Cluster in Standalone mode:
 
 https://docs.google.com/document/d/1RrwooqTfAZzn0L8kq4EvvGLNYQBRi_FNeyB4C221qMo/edit#
