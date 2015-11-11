@@ -11,7 +11,7 @@ ANSIBLE_DIR = BASE_DIR + "/../Ansible/playbooks/"
 
 def execute(command):
     print("Executing Command" + command)
-    out = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True).communicate()
+    out = subprocess.call(command, shell=True)
     print(out[0])
 
 
