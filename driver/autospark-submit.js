@@ -20,9 +20,10 @@ function command_executor(cmd) {
 	});
 }
 
-prompt.get(['provider','spark_master_ip','spark_context_url','spark_job_file_path', 'job_name_at_destination', 'data_file_name'], function (err, result) {
+prompt.get(['provider','spark_master_ip','ssh_private_key_path', 'spark_context_url','spark_job_file_path', 'job_name_at_destination', 'data_file_name'], function (err, result) {
 
     provider = result.provider
+    ssh_private_key_path = result.ssh_private_key_path
     spark_master_ip = result.spark_master_ip
     spark_context_url = result.spark_context_url
     spark_job_file_path = result.spark_job_file_path
