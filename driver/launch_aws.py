@@ -21,12 +21,7 @@ def install_packages(filename):
 
 def execute(command):
     print("Executing Command" + command)
-    out = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True).communicate()
-    print(out[0])
-    # popen = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    # lines_iterator = iter(popen.stdout.readline, b"")
-    # for line in lines_iterator:
-    #     print(line)
+    subprocess.call(command, shell=True)
 
 
 def launch(args):
