@@ -44,11 +44,11 @@ prompt.get(['provider','spark_master_ip','ssh_private_key_path', 'spark_context_
     } else if (provider === 'digitalocean') {
 
         console.log("Copying the program to the remote spark master...")
-        cmd = "scp -i " + ssh_private_key_path + " " + spark_job_file_path + " root@" + spark_master_ip + ":/home/ubuntu/" + job_name_at_destination
+        cmd = "scp -i " + ssh_private_key_path + " " + spark_job_file_path + " root@" + spark_master_ip + ":/root/" + job_name_at_destination
         command_executor(cmd)
 
         console.log("Running spark job on master...")
-        cmd = "ssh -l root " + spark_master_ip + " 'sudo /spark/spark_latest/bin/pyspark /home/ubuntu/"+ job_name_at_destination + " " + spark_context_url + " " + data_file_name + "'"
+        cmd = "ssh -l root " + spark_master_ip + " 'sudo /spark/spark_latest/bin/pyspark /root/"+ job_name_at_destination + " " + spark_context_url + " " + data_file_name + "'"
         command_executor(cmd)
     }
 
