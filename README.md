@@ -59,6 +59,14 @@ mkdir /home/ubuntu/ssh_keys
 cp ~/.ssh/id_rsa /home/ubuntu/ssh_keys/id_rsa
 cp ~/.ssh/id_rsa.pub /home/ubuntu/ssh_keys/id_rsa.pub
 ```
+4. Edit ssh_config file - set Stricthost checking to no
+```
+vi /etc/ssh/ssh_config
+
+Set: 
+
+StrictHostKeyChecking=no
+```
 
 ## AutoSpark Usage:
 
