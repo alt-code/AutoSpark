@@ -110,6 +110,10 @@ function get_spark_cluster_params(provider, keys) {
 
         if( size && name && ssh_key_path && ssh_pub_path) {
 
+            // Delete all file data
+            cmd = 'python truncate.py'
+            command_executor(cmd)
+
             if(size === 'custom') {
 
                 if(provider === 'aws') {
@@ -118,6 +122,7 @@ function get_spark_cluster_params(provider, keys) {
                     prompt.get(['count', 'aws_type'], function (err, result) {
                         count = result.count
                         type = result.aws_type
+
                         cmd = 'python launch_aws.py ' + name + ' ' + count + ' ' + type + ' ' + ssh_key_path + ' ' + aws_access_key + ' ' + aws_secret_key + ' ' + ssh_pub_path;
                         command_executor(cmd)
 
