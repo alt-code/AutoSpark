@@ -23,8 +23,9 @@ function command_executor(cmd) {
 	});
 }
 
-prompt.get(['data_file_full_path','file_name_at_destination', 'ssh_private_key_path'], function (err, result) {
+prompt.get(['provider', 'data_file_full_path','file_name_at_destination', 'ssh_private_key_path'], function (err, result) {
 
+    provider = result.provider
     data_file_full_path = result.data_file_full_path
     file_name_at_destination = result.file_name_at_destination
     ssh_private_key_path = result.ssh_private_key_path
@@ -55,12 +56,23 @@ prompt.get(['data_file_full_path','file_name_at_destination', 'ssh_private_key_p
 
         console.log("Saving data to the below nodes ")
         console.log(nodes_array)
+        if(provider == 'aws'){
 
-        for(var i=0; i < nodes_array.length; i++) {
+                for(var i=0; i < nodes_array.length; i++) {
 
-            ip_addr = nodes_array[i]
-            cmd = "scp -i " + ssh_private_key_path + " "+ data_file_full_path + " " + ip_addr + ":/home/ubuntu/" + file_name_at_destination
-            command_executor(cmd)
+                    ip_addr = nodes_array[i]
+                    cmd = "scp -i " + ssh_private_key_path + " "+ data_file_full_path + " " + ip_addr + ":/home/ubuntu/" + file_name_at_destination
+                    command_executor(cmd)
+                }
+
+        } else if (provider == 'digitalocean') {
+
+                for(var i=0; i < nodes_array.length; i++) {
+
+                    ip_addr = nodes_array[i]
+                    cmd = "scp -i " + ssh_private_key_path + " "+ data_file_full_path + " root@" + ip_addr + ":/home/ubuntu/" + file_name_at_destination
+                    command_executor(cmd)
+                }
 
         }
 
