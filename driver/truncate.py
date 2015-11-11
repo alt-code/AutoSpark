@@ -15,16 +15,16 @@ def deleteContent(pfile):
 
 
 def main():
-    with open(MASTER_INV_FILE) as pfile:
+    with open(MASTER_INV_FILE, 'w') as pfile:
         deleteContent(pfile)
 
-    with open(SLAVE_INV_FILE) as pfile:
+    with open(SLAVE_INV_FILE, 'w') as pfile:
         deleteContent(pfile)
 
-    with open(MASTER_SH) as pfile:
+    with open(MASTER_SH, 'w') as pfile:
         deleteContent(pfile)
 
-    with open(SLAVE_SH) as pfile:
+    with open(SLAVE_SH, 'w') as pfile:
         deleteContent(pfile)
 
 
