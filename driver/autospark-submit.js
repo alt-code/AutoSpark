@@ -20,6 +20,13 @@ function command_executor(cmd) {
 	});
 }
 
+console.log('#########################################');
+console.log('##     Welcome to AutoSpark Job Submit   ##');
+console.log('#########################################');
+console.log('\n')
+console.log('Enter provider: aws to digitalocean');
+console.log('\n')
+
 prompt.get(['provider','spark_master_ip','ssh_private_key_path', 'spark_context_url','spark_job_file_path', 'job_name_at_destination', 'data_file_name'], function (err, result) {
 
     provider = result.provider

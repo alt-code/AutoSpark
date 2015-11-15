@@ -23,6 +23,13 @@ function command_executor(cmd) {
 	});
 }
 
+console.log('#########################################');
+console.log('##     Welcome to AutoSpark Data Load   ##');
+console.log('#########################################');
+console.log('\n')
+console.log('Enter provider: aws to digitalocean');
+console.log('\n')
+
 prompt.get(['provider', 'data_file_full_path','file_name_at_destination', 'ssh_private_key_path'], function (err, result) {
 
     provider = result.provider
