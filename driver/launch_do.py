@@ -53,8 +53,9 @@ def launch(args):
     # subprocess.call("sudo node create_shell_scripts.js", shell=True)
 
     # Wait for instance to be ssh ready
+    # DO instances are very slow sometimes
     print("Waiting for digital ocean instances to be ready for ssh")
-    time.sleep(250)
+    time.sleep(400)
 
     # Move to ansible directory
     os.chdir(ANSIBLE_DIR)
