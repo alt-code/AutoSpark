@@ -1,6 +1,5 @@
 FROM ubuntu:14.04
 
-
 RUN apt-get update -y
 RUN apt-get install git -y
 RUN apt-get install python-pip -y
@@ -11,10 +10,6 @@ RUN apt-get install software-properties-common -y
 RUN apt-add-repository ppa:ansible/ansible -y
 RUN apt-get install ansible -y
 RUN git clone https://github.com/alt-code/AutoSpark.git
-RUN ssh-keygen -t rsa
-RUN mkdir /home/ubuntu/ssh_keys
-cp ~/.ssh/id_rsa /home/ubuntu/ssh_keys/id_rsa
-cp ~/.ssh/id_rsa.pub /home/ubuntu/ssh_keys/id_rsa.pub
-RUN  echo -e "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+RUN echo -e "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 RUN cd /home/ubuntu/AutoSpark/driver
 RUN npm install
