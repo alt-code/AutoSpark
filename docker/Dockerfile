@@ -11,5 +11,5 @@ RUN apt-add-repository ppa:ansible/ansible -y
 RUN apt-get install ansible -y
 RUN git clone https://github.com/alt-code/AutoSpark.git
 RUN echo -e "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
-RUN cd /home/ubuntu/AutoSpark/driver
+RUN AutoSpark/driver
 RUN npm install
