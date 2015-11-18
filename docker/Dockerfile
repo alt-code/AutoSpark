@@ -12,4 +12,4 @@ RUN apt-get install ansible -y
 RUN git clone https://github.com/alt-code/AutoSpark.git
 RUN echo -e "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 RUN cd AutoSpark/driver/;npm install
-RUN node autospark-cluster-launch.js
+RUN cd AutoSpark/driver/;node autospark-cluster-launcher.js
