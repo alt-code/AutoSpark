@@ -16,7 +16,56 @@ Auto spinning spark clusters for text analysis and machine learning.
 3. Generate a new token
 4. Copy the token to a safe place
 
-### Instructions for launching clusters using Ubuntu
+### Instructions to run on Docker
+
+##### Steps to build and run Docker Image
+
+```
+docker build https://github.com/alt-code/AutoSpark.git#master:docker -t saurabhsvj/autospark
+docker run -it saurabhsvj/autospark /bin/bash
+```
+This step should start a bash prompt inside docker to run the below commands
+
+##### Execute commands on docker container bash
+These create the necessary folders for ssh_keys
+```
+docker-bash $: ssh-keygen -t rsa
+docker-bash $: mkdir /ssh_keys
+docker-bash $: cp ~/.ssh/id_rsa /ssh_keys/id_rsa
+docker-bash $: cp ~/.ssh/id_rsa.pub /ssh_keys/id_rsa.pub
+docker-bash $: echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+```
+
+##### Running the logscanner job using docker
+
+Initial setup to get datasets
+```
+sudo apt-get install wget
+wget ftp://ita.ee.lbl.gov/traces/NASA_access_log_Jul95.gz
+gzip -d NASA_access_log_Jul95.gz
+mv NASA_access_log_Jul95 nasalogs
+```
+
+Loading data
+```
+node node autospark-load.js
+Follow instructions on cmd line
+```
+
+Submitting the job
+```
+node autospark-submit.js
+Follow the instructions on cmd line
+```
+
+Tear down the cluster
+```
+node autospark-teardown.js
+Follow the instructions on cmd line
+```
+
+
+### Instructions for launching clusters using Ubuntu OS
 
 1. Updates the driver machine
 ```
