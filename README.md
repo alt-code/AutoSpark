@@ -16,7 +16,7 @@ Auto spinning spark clusters for text analysis and machine learning.
 3. Generate a new token
 4. Copy the token to a safe place
 
-### Instructions to run on Docker
+## Instructions to run on Docker
 
 ##### Steps to build and run Docker Image
 
@@ -46,26 +46,29 @@ gzip -d NASA_access_log_Jul95.gz
 mv NASA_access_log_Jul95 nasalogs
 ```
 
-Loading data
+### Loading the data onto the cluster
 ```
-node node autospark-load.js
-Follow instructions on cmd line
+node autospark-load.js
+
+Note: Follow the instructions on command line
 ```
 
-Submitting the job
+### Submitting the job to spark cluster
 ```
 node autospark-submit.js
-Follow the instructions on cmd line
+
+Note: Follow the instructions on command line
 ```
 
-Tear down the cluster
+### Tear down the cluster
 ```
 node autospark-teardown.js
-Follow the instructions on cmd line
+
+Note: Follow the instructions on command line
 ```
 
 
-### Instructions for launching clusters using Ubuntu OS
+## Instructions for launching clusters using Ubuntu OS
 
 1. Updates the driver machine
 ```
