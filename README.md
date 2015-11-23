@@ -70,42 +70,31 @@ Note: Follow the instructions on command line
 
 ## Instructions for launching clusters using Ubuntu OS
 
-1. Updates the driver machine
+Updates the driver machine
 ```
 sudo apt-get update -y
 ```
-2. Install git on the system
+Install git on the system
 ```
 sudo apt-get install git
 ```
-3. Install pip
-```
-sudo apt-get install python-pip -y
-```
-4. Setting up node and npm
-```
-sudo apt-get install npm -y
-sudo apt-get install nodejs-legacy -y
-sudo ln -s /usr/bin/nodejs /usr/sbin/node
-```
-5. Install ansible
-```
-sudo apt-get install software-properties-common -y
-sudo apt-add-repository ppa:ansible/ansible -y
-sudo apt-get install ansible -y
-```
-6. Clone the AutoSpark Repo
+Clone the AutoSpark Repo
 ```
 git clone https://github.com/alt-code/AutoSpark.git
 ```
-7. If ssh key pair is not present create it. Copy it to a known folder e.g. ssh_keys
+Run the setup script
+```
+cd AutoSpark/scripts
+sudo ./setup_machine.sh
+```
+If ssh key pair is not present create it. Copy it to a known folder e.g. ssh_keys
 ```
 ssh-keygen -t rsa
 mkdir /home/ubuntu/ssh_keys
 cp ~/.ssh/id_rsa /home/ubuntu/ssh_keys/id_rsa
 cp ~/.ssh/id_rsa.pub /home/ubuntu/ssh_keys/id_rsa.pub
 ```
-8. Edit ssh_config file - set Stricthost checking to no
+Edit ssh_config file - set Stricthost checking to no
 ```
 vi /etc/ssh/ssh_config
 
