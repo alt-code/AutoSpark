@@ -38,7 +38,7 @@ console.log('#########################################');
 console.log('##     Welcome to AutoSpark Launcher   ##');
 console.log('#########################################');
 console.log('\n')
-console.log('Enter provider: aws to digitalocean');
+console.log('Enter provider: aws or digitalocean');
 console.log('\n')
 
 prompt.get(['provider'], function (err, result) {
