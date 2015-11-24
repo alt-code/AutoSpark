@@ -2,6 +2,9 @@
 
 Auto spinning spark clusters for text analysis and machine learning.
 
+## Usage Demo for AutoSpark
+https://youtu.be/gPppTDGynoU 
+
 ## Setting up AutoSpark
 
 ### Setup AWS Access Keys
