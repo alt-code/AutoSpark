@@ -3,7 +3,7 @@
 Auto spinning spark clusters for text analysis and machine learning.
 
 ## Usage Demo for AutoSpark
-https://youtu.be/gPppTDGynoU 
+https://youtu.be/gPppTDGynoU   -- Needs to be viewed in 1080p to see the text
 
 ## Setting up AutoSpark
 
@@ -99,7 +99,7 @@ cp ~/.ssh/id_rsa.pub /home/ubuntu/ssh_keys/id_rsa.pub
 ```
 Edit ssh_config file - set Stricthost checking to no
 ```
-vi /etc/ssh/ssh_config
+sudo vi /etc/ssh/ssh_config
 
 Set: 
 
