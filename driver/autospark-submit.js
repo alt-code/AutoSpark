@@ -24,7 +24,7 @@ console.log('#########################################');
 console.log('##     Welcome to AutoSpark Job Submit   ##');
 console.log('#########################################');
 console.log('\n')
-console.log('Enter provider: aws to digitalocean');
+console.log('Enter provider: aws or digitalocean');
 console.log('\n')
 
 prompt.get(['provider','spark_master_ip','ssh_private_key_path', 'spark_context_url','spark_job_file_path', 'job_name_at_destination', 'data_file_name'], function (err, result) {
@@ -41,7 +41,7 @@ prompt.get(['provider','spark_master_ip','ssh_private_key_path', 'spark_context_
     if (provider === 'aws') {
 
         console.log("Copying the program to the remote spark master...")
-        cmd = "scp -i " + ssh_private_key_path + " " + spark_job_file_path + " " + spark_master_ip + ":/home/ubuntu/" + job_name_at_destination
+        cmd = "scp -i " + ssh_private_key_path + " " + spark_job_file_path + " ubuntu@" + spark_master_ip + ":/home/ubuntu/" + job_name_at_destination
         command_executor(cmd)
 
         console.log("Running spark job on master...")

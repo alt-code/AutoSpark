@@ -27,7 +27,7 @@ console.log('#########################################');
 console.log('##     Welcome to AutoSpark Data Load   ##');
 console.log('#########################################');
 console.log('\n')
-console.log('Enter provider: aws to digitalocean');
+console.log('Enter provider: aws or digitalocean');
 console.log('\n')
 
 prompt.get(['provider', 'data_file_full_path','file_name_at_destination', 'ssh_private_key_path'], function (err, result) {
@@ -68,7 +68,7 @@ prompt.get(['provider', 'data_file_full_path','file_name_at_destination', 'ssh_p
                 for(var i=0; i < nodes_array.length; i++) {
 
                     ip_addr = nodes_array[i]
-                    cmd = "scp -i " + ssh_private_key_path + " "+ data_file_full_path + " " + ip_addr + ":/home/ubuntu/" + file_name_at_destination
+                    cmd = "scp -i " + ssh_private_key_path + " "+ data_file_full_path + " ubuntu@" + ip_addr + ":/home/ubuntu/" + file_name_at_destination
                     command_executor(cmd)
                 }
 
