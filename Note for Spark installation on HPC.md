@@ -14,6 +14,8 @@ First of all, get started with HPC real quick from this [link](https://github.co
 
 
 ##Install Java
+*Before you start, use `java -version` to test if Java has already been installed. If so, skip the following steps, and jump to the next one.*
+
 1. Download JDK packege
 
   ```
