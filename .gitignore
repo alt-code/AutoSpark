@@ -71,7 +71,7 @@ Datasets/StackExchange
 *.zip
 *.rar
 *.7z
-.*~
+*.*~
 # Makefile
 Makefile
 makefile
