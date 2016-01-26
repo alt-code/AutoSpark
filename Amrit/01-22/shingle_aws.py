@@ -348,9 +348,9 @@ def _test(file='cs'):
     #sys.stdout = Logger("yourlogfilename.txt")
     issel = ["tfidf", "tf"]
     isshingle=["no_shingle","bigram","trigram"]
-    filenamelist = ['cs', 'diy']#, 'academia', 'judaism', 'photo', 'rpg', 'scifi', 'ux']
-    #for i in range(10):
-       #filenamelist.append('SE'+str(i))
+    filenamelist = ['cs', 'diy', 'academia', 'judaism', 'photo', 'rpg', 'scifi', 'ux']
+    for i in range(10):
+       filenamelist.append('SE'+str(i))
     print("started")
     F_final = {}
     for filename in filenamelist:
@@ -377,7 +377,7 @@ def _test(file='cs'):
 
     '''with open('result.pickle', 'rb') as handle:
         F_final = pickle.load(handle)
-    print (F_final)'''
+    print (F_final)
     plt.figure(num=0, figsize=(20, 6))
 
     plt.subplot(121)
@@ -397,7 +397,7 @@ def _test(file='cs'):
     plt.ylabel("F score")
     plt.xlabel("Sites of StackExchange")
     plt.legend(bbox_to_anchor=(1.05, 1.0), loc=2, borderaxespad=0.)
-    plt.savefig("Docs1.png")
+    plt.savefig("Docs1.png")'''
 
 if __name__ == '__main__':
     
