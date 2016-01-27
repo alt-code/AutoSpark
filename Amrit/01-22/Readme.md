@@ -10,7 +10,7 @@ For pip (if pip is there) install on an ubuntu machine, these are the package na
 
 Download this dataset from [here] (https://drive.google.com/file/d/0B6L_ShRNMys7cEl1U0xxRGw5NFU/view?usp=sharing). Keep the extracted files in the 'dataset' folder. In this 'dataset' folder remove the 'readme.md' file
 
-Then Run this command then
+Then Run this command
 ```
 python shingle_aws.py _test
 ```
