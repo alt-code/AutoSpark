@@ -3,10 +3,10 @@
 Running Latent Dirichlet Allocation(LDA) on Wikipedia data on a Spark cluster.
 
 ####Requirements on localhost
-Maven 3.0+  
+- Maven 3.0+  
 ```sudo apt-get install maven```
 
-Hadoop 2.6+
+- Hadoop 2.6+
 ```
 wget http://mirrors.sonic.net/apache/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz
 tar -xvzf hadoop-2.6.0.tar.gz
@@ -61,6 +61,7 @@ export PATH=$PATH:$HADOOP_INSTALL/sbin
   e.g. spark/spark_latest/bin/spark-submit --class lda.RunLDA --master spark://152.46.18.84:7077 --executor-memory 6G --driver-memory 6G LDA-1.0.2-jar-with-dependencies.jar hdfs://152.46.18.84/user/agohil/In/enwiki-latest-pages-articles.xml /home/agohil/output.txt
   
 The following runtime args needs to be passed:
+
 1. Path to input XML on HDFS (mandatory)
 2. Path to output file which will have the topics and runtimes of different modules (mandatory)
 3. Number of top terms per document to reduce dimensions (optional, default 20000)
