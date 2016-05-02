@@ -35,7 +35,7 @@ object RunLDA {
   private def run(args: Array[String]) {
     val inputFilePath = args(0)
     val outputFileFullPath = args(1)
-    val numTerms = if (args.length > 2) args(2).toInt else 50000
+    val numTerms = if (args.length > 2) args(2).toInt else 20000
     val numTopics = if (args.length > 3) args(3).toInt else 30
     
     val fw = new FileWriter(outputFileFullPath, true)
@@ -155,7 +155,7 @@ object RunLDA {
       .setOutputCol("tokens")
     
     val countVectorizer = new CountVectorizer()
-                          .setVocabSize(20000)
+                          .setVocabSize(numTerms)
                           .setInputCol("tokens")
                           .setOutputCol("features")
 
