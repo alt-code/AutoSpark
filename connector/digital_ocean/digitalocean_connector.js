@@ -87,13 +87,16 @@ function check_ssh_key(ssh_json) {
 
 function check_for_key(ssh_json, ssh_key_arr) {
     check_for_name = ssh_json["name"]
-    check_public_key = ssh_json["public_key"]
+    check_public_key = ssh_json["public_key"].trim()
+
+
     found_key = false
     error = false
 
     for (var i = 0; i < ssh_key_arr.length; i++) {
         ssh_key_blob = ssh_key_arr[i]
         if (ssh_key_blob["name"] === check_for_name) {
+
             if (ssh_key_blob["public_key"] === check_public_key) {
                 found_key = true
                 error = false
