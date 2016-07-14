@@ -34,11 +34,14 @@
      apt: name=openjdk-7-jre state=present
 
    - name: Start Spark Master
+     environment:
+         SPARK_LOCAL_IP: "{{master_ip}}"
+         SPARK_MASTER_IP: "{{master_ip}}"
      sudo: true
      when: master=="true"
      command: sh /spark/spark_latest/sbin/start-master.sh -h {{master_ip}}
-     environment:
-         SPARK_LOCAL_IP: {{master_ip}}
+     tags:
+         - startmaster
 
    - name: Stop Slaves
      sudo: true
