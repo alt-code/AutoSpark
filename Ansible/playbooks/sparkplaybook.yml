@@ -37,8 +37,19 @@
      sudo: true
      when: master=="true"
      command: sh /spark/spark_latest/sbin/start-master.sh -h {{master_ip}}
+     environment:
+         SPARK_LOCAL_IP: {{master_ip}}
+
+   - name: Stop Slaves
+     sudo: true
+     when: master=="false"
+     command: /spark/spark_latest/sbin/stop-slave.sh
+     tags: 
+         - stop
 
    - name: Start Spark Slaves
      sudo: true
      when: master=="false"
-     command: /spark/spark_latest/sbin/start-slave.sh {{spark_url}}
+     command: /spark/spark_latest/sbin/start-slave.sh {{spark_url}} -h {{ ansible_eth0["ipv4"]["address"] }}
+     tags:
+         - start

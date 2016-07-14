@@ -174,7 +174,7 @@ function get_spark_cluster_params(provider, keys) {
                 }
                 else if( provider === 'digitalocean') {
 
-                    cmd = 'python launch_do.py ' + name + ' 4 2gb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
+                    cmd = 'python launch_do.py ' + name + ' 4 4gb ' + ssh_key_path + ' ' + digitalocean_token + ' ' + ssh_pub_path;
                     command_executor(cmd)
                 }
             }

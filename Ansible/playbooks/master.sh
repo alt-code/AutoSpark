@@ -1,1 +1,0 @@
-ansible-playbook -s --extra-vars 'MASTER_YES="true" USER="root" SPARK_URL="" MASTER_IP="159.203.73.195"' sparkplaybook.yml -i master_inventory
